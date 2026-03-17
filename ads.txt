@@ -1,0 +1,3 @@
+# Add your approved AdSense publisher entry after enabling AdSense on calcwisehub.com.
+# Example:
+# google.com, pub-3412124316994451, DIRECT, f08c47fec0942fa0
