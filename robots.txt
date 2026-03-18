@@ -1,4 +1,25 @@
 User-agent: *
 Allow: /
+Disallow: /404.html
+
+# Google
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+# Bing
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+# Baidu
+User-agent: Baiduspider
+Allow: /
+Crawl-delay: 2
+
+# Yandex
+User-agent: YandexBot
+Allow: /
+Crawl-delay: 2
 
 Sitemap: https://calcwisehub.com/sitemap.xml

@@ -1839,33 +1839,74 @@ function injectStructuredData() {
   if (existing) existing.remove();
   const title = document.title || SITE.name;
   const description = document.querySelector('meta[name="description"]')?.getAttribute("content") || "";
+  const pageUrl = absoluteUrl(basePath(window.location.pathname), currentLanguage);
+  const siteUrl = absoluteUrl("/", currentLanguage);
+  const currentPath = basePath(window.location.pathname);
+
+  const webSiteSchema = {
+    "@type": "WebSite",
+    "@id": `${absoluteUrl("/", "en")}#website`,
+    name: SITE.name,
+    url: absoluteUrl("/", "en"),
+    inLanguage: currentLanguage,
+    potentialAction: {
+      "@type": "SearchAction",
+      target: { "@type": "EntryPoint", urlTemplate: `${absoluteUrl("/calculators/", "en")}?q={search_term_string}` },
+      "query-input": "required name=search_term_string",
+    },
+  };
+
+  const webPageSchema = {
+    "@type": "WebPage",
+    "@id": `${pageUrl}#webpage`,
+    name: title,
+    url: pageUrl,
+    description,
+    inLanguage: currentLanguage,
+    image: OG_IMAGE_URL,
+    isPartOf: { "@id": `${absoluteUrl("/", "en")}#website` },
+    breadcrumb: {
+      "@type": "BreadcrumbList",
+      itemListElement: buildBreadcrumbItems(currentPath),
+    },
+  };
+
+  const graph = [webSiteSchema, webPageSchema];
+
+  // Add SoftwareApplication schema for calculator pages
+  const isCalculator = currentPath.startsWith("/calculators/") && currentPath !== "/calculators/";
+  if (isCalculator) {
+    graph.push({
+      "@type": "SoftwareApplication",
+      "@id": `${pageUrl}#app`,
+      name: title,
+      url: pageUrl,
+      description,
+      applicationCategory: "FinanceApplication",
+      operatingSystem: "Any",
+      offers: { "@type": "Offer", price: "0", priceCurrency: currentRegionSettings().currency || "USD" },
+      inLanguage: currentLanguage,
+    });
+  }
+
   const script = document.createElement("script");
   script.type = "application/ld+json";
   script.dataset.structuredData = "1";
-  script.textContent = JSON.stringify({
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "WebSite",
-        name: SITE.name,
-        url: absoluteUrl("/", currentLanguage),
-        inLanguage: currentLanguage,
-      },
-      {
-        "@type": "WebPage",
-        name: title,
-        url: absoluteUrl(basePath(window.location.pathname), currentLanguage),
-        description,
-        inLanguage: currentLanguage,
-        isPartOf: {
-          "@type": "WebSite",
-          name: SITE.name,
-          url: absoluteUrl("/", currentLanguage),
-        },
-      },
-    ],
-  });
+  script.textContent = JSON.stringify({ "@context": "https://schema.org", "@graph": graph });
   document.head.appendChild(script);
+}
+
+function buildBreadcrumbItems(path) {
+  const nav = tCommon("nav");
+  const items = [{ "@type": "ListItem", position: 1, name: nav[0], item: absoluteUrl("/", currentLanguage) }];
+  if (path === "/calculators/" || path.startsWith("/calculators/")) {
+    items.push({ "@type": "ListItem", position: 2, name: nav[1], item: absoluteUrl("/calculators/", currentLanguage) });
+  }
+  const h1 = document.querySelector("main h1, [data-calc-title]");
+  if (h1 && path !== "/" && path !== "/calculators/") {
+    items.push({ "@type": "ListItem", position: items.length + 1, name: h1.textContent.trim(), item: absoluteUrl(path, currentLanguage) });
+  }
+  return items;
 }
 
 function detectLanguage() {
@@ -2213,6 +2254,26 @@ function localizeInternalLinks(root = document) {
   });
 }
 
+const OG_IMAGE_URL = "https://calcwisehub.com/assets/og-cover.jpg";
+const OG_IMAGE_W = "1200";
+const OG_IMAGE_H = "630";
+
+function applyCommonSeoMeta(title, description, pageUrl) {
+  const locale = localeForFormatting().replace("-", "_");
+  setHeadMeta("og:site_name", SITE.name, true);
+  setHeadMeta("og:locale", locale, true);
+  setHeadMeta("og:image", OG_IMAGE_URL, true);
+  setHeadMeta("og:image:width", OG_IMAGE_W, true);
+  setHeadMeta("og:image:height", OG_IMAGE_H, true);
+  setHeadMeta("og:image:alt", title, true);
+  setHeadMeta("twitter:card", "summary_large_image");
+  setHeadMeta("twitter:site", "@calcwisehub");
+  setHeadMeta("twitter:title", title);
+  setHeadMeta("twitter:description", description);
+  setHeadMeta("twitter:image", OG_IMAGE_URL);
+  setHeadMeta("twitter:url", pageUrl);
+}
+
 function applyPageTranslations() {
   const copy = pathCopy(window.location.pathname);
   if (copy) {
@@ -2221,7 +2282,9 @@ function applyPageTranslations() {
     if (copy.keywords) setHeadMeta("keywords", copy.keywords);
     setHeadMeta("og:title", copy.title, true);
     setHeadMeta("og:description", copy.description, true);
-    setHeadMeta("og:url", absoluteUrl(basePath(window.location.pathname), currentLanguage), true);
+    const pageUrl = absoluteUrl(basePath(window.location.pathname), currentLanguage);
+    setHeadMeta("og:url", pageUrl, true);
+    applyCommonSeoMeta(copy.title, copy.description, pageUrl);
     refreshAlternateLinks();
     applyMappedItems(copy.items);
     localizeInternalLinks();
@@ -2235,7 +2298,9 @@ function applyPageTranslations() {
     setHeadMeta("keywords", staticCopy.keywords);
     setHeadMeta("og:title", staticCopy.title, true);
     setHeadMeta("og:description", staticCopy.description, true);
-    setHeadMeta("og:url", absoluteUrl(basePath(window.location.pathname), currentLanguage), true);
+    const staticPageUrl = absoluteUrl(basePath(window.location.pathname), currentLanguage);
+    setHeadMeta("og:url", staticPageUrl, true);
+    applyCommonSeoMeta(staticCopy.title, staticCopy.description, staticPageUrl);
     const rich = document.querySelector(".rich-text");
     if (rich) {
       rich.innerHTML = `
@@ -2269,6 +2334,11 @@ function applyPageTranslations() {
   refreshAlternateLinks();
   localizeInternalLinks();
   injectStructuredData();
+  // Ensure og:image and Twitter Cards are always set (covers calculator pages)
+  const fallbackTitle = document.title || SITE.name;
+  const fallbackDesc = document.querySelector('meta[name="description"]')?.getAttribute("content") || "";
+  const fallbackUrl = absoluteUrl(basePath(window.location.pathname), currentLanguage);
+  applyCommonSeoMeta(fallbackTitle, fallbackDesc, fallbackUrl);
 }
 
 function formatCurrency(value, currency = "CNY") {
