@@ -870,6 +870,75 @@ const HOME_PAGE_META = {
   },
 };
 
+const HOME_PAGE_ITEMS = {
+  ja: {
+    "hero-title": "まず月返済額を確認し、次に手取り収入、そして投資前に複利効果を把握しよう",
+    "hero-text": "ローン、税金、退職、複利、為替レートはすべて実生活の判断に影響します。複雑な計算式をわかりやすいツールに変え、より確実な意思決定をサポートします。",
+    "hero-primary": "全ての計算機を見る",
+    "hero-secondary": "ガイドを読む",
+    "metric-1-value": "101+",
+    "metric-1-text": "ローン、投資、税金、健康、数学、日常の場面をカバー",
+    "metric-2-value": "すぐに",
+    "metric-2-text": "数字を入力するとすぐに結果と比較が表示される",
+    "metric-3-value": "グローバル",
+    "metric-3-text": "言語と地域のデフォルト設定で最初から使いやすい",
+    "metric-4-value": "保存推奨",
+    "metric-4-text": "戻ってきて数字を変えて、重要な決断の前にシナリオを比較しよう",
+    "sec1-badge": "コア機能",
+    "sec1-title": "大切なお金の数字を、決断前に明確に把握する",
+    "sec1-text": "住宅ローンの比較、昇給の確認、投資計画の開始、退職準備など、不確かな数字を測定可能なものに変えるお手伝いをします。",
+    "card-loan-title": "ローン計算機",
+    "card-loan-text": "重要なローン決定をする前に、月返済額、総利息、長期コストを把握しましょう。",
+    "card-tax-title": "所得税計算機",
+    "card-tax-text": "給与と控除から実際の手取り収入を明らかにし、報酬の判断に根拠を持たせましょう。",
+    "card-prepay-title": "住宅ローン繰上返済計算機",
+    "card-prepay-text": "返済額削減と期間短縮の戦略を比較して、あなたの生活に合った繰上返済の道を選びましょう。",
+    "sec2a-badge": "より詳しく",
+    "sec2a-title": "単なる計算結果以上のもの",
+    "sec2a-item1": "各計算機は一つの結果にとどまらず、チャート、表、FAQ、実践的なガイダンスで結果を説明し続けます。",
+    "sec2a-item2": "それにより、数字が何であるかだけでなく、なぜそうなるかを理解しやすくなります。",
+    "sec2a-item3": "ページが充実していて明確で比較しやすいとき、重要な決断の前に保存して再訪するものになります。",
+    "sec2b-badge": "地元感覚",
+    "sec2b-title": "使いやすく、信頼しやすく、実生活に近い",
+    "sec2b-item1": "言語、地域、通貨、単位のデフォルト設定で、最初の訪問から親しみやすく感じられます。",
+    "sec2b-item2": "摩擦を減らし、好奇心から自信ある比較へと素早く移行できます。",
+    "sec2b-item3": "給与選択、住宅ローン計画、予算作成、投資すべてに役立てば、一回限りのツールではなく信頼できる決断のパートナーになります。",
+  },
+  ko: {
+    "hero-title": "먼저 월납입금을 확인하고, 다음엔 실수령액, 투자 전엔 복리를 파악하세요",
+    "hero-text": "대출, 세금, 은퇴, 복리, 환율은 모두 실생활 결정에 영향을 줍니다. 복잡한 공식을 읽기 쉽고 신뢰할 수 있는 도구로 바꿔드립니다.",
+    "hero-primary": "모든 계산기 보기",
+    "hero-secondary": "가이드 읽기",
+    "metric-1-value": "101+",
+    "metric-1-text": "대출, 투자, 세금, 건강, 수학, 일상 결정 분야 커버",
+    "metric-2-value": "빠르게",
+    "metric-2-text": "숫자를 입력하면 바로 결과와 비교가 나타납니다",
+    "metric-3-value": "글로벌",
+    "metric-3-text": "언어와 지역 기본값으로 처음부터 익숙하게 사용 가능",
+    "metric-4-value": "즐겨찾기",
+    "metric-4-text": "다시 돌아와 입력값을 바꿔가며 중요한 결정 전에 시나리오를 비교하세요",
+    "sec1-badge": "핵심 기능",
+    "sec1-title": "비용이 큰 결정 전에 숫자를 명확하게 파악하세요",
+    "sec1-text": "모기지 비교, 인상 확인, 투자 계획 시작, 은퇴 준비 등 불확실한 숫자를 측정 가능한 것으로 바꿔드립니다.",
+    "card-loan-title": "대출 계산기",
+    "card-loan-text": "중요한 대출 결정 전에 월납입금, 총이자, 장기 비용을 파악하세요.",
+    "card-tax-title": "소득세 계산기",
+    "card-tax-text": "급여와 공제액으로 실제 실수령액을 확인해 보상 결정에 근거를 갖추세요.",
+    "card-prepay-title": "주택담보대출 중도상환 계산기",
+    "card-prepay-text": "납입액 감소와 기간 단축 전략을 비교해 내 생활에 맞는 중도상환 방법을 선택하세요.",
+    "sec2a-badge": "더 자세히",
+    "sec2a-title": "단순한 답변 박스 그 이상",
+    "sec2a-item1": "각 계산기는 하나의 결과를 넘어 차트, 표, FAQ, 실용적인 가이드로 결과를 설명합니다.",
+    "sec2a-item2": "숫자가 무엇인지뿐 아니라 왜 변하는지 이해하기 쉬워집니다.",
+    "sec2a-item3": "페이지가 완전하고 명확하며 비교하기 쉬울 때, 중요한 결정 전에 저장하고 다시 찾는 도구가 됩니다.",
+    "sec2b-badge": "현지 감각",
+    "sec2b-title": "빠르게 사용하고, 신뢰하기 쉽고, 실생활에 가깝게",
+    "sec2b-item1": "언어, 지역, 통화, 단위 기본값으로 첫 방문부터 친숙하게 느껴집니다.",
+    "sec2b-item2": "마찰을 줄이고 호기심에서 자신 있는 비교로 훨씬 빠르게 이동할 수 있습니다.",
+    "sec2b-item3": "급여 선택, 모기지 계획, 예산 수립, 투자 모두에 도움이 되면 일회성 도구가 아닌 신뢰할 수 있는 결정 파트너가 됩니다.",
+  },
+};
+
 const STATIC_PAGE_FALLBACK = {
   zh: {
     "/about/": ["关于我们", "我们持续整理与更新贷款、税务、理财和生活测算工具，让用户可以更快完成判断。"],
@@ -2335,10 +2404,11 @@ function pathCopy(pathname) {
     if (!home) return null;
     if (home[currentLanguage]) return home[currentLanguage];
     const meta = HOME_PAGE_META[currentLanguage];
+    const items = HOME_PAGE_ITEMS[currentLanguage];
     if (meta) {
       return {
         ...meta,
-        items: localizeSiteValue((home.en && home.en.items) || (home.zh && home.zh.items) || {}),
+        items: items || localizeSiteValue((home.en && home.en.items) || (home.zh && home.zh.items) || {}),
       };
     }
   }
