@@ -709,8 +709,11 @@ textarea {
   line-height: 1.18;
   letter-spacing: -0.03em;
   font-variant-numeric: tabular-nums;
-  overflow-wrap: anywhere;
-  word-break: break-word;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  overflow-wrap: normal;
+  word-break: normal;
 }
 
 .toggle-row {

@@ -822,6 +822,54 @@ const PAGE_COPY = {
   },
 };
 
+const HOME_PAGE_META = {
+  ja: {
+    title: "グローバル計算機ハブ - ローン・税金・投資・住宅ローン・日常ツール",
+    description: "ローン、税金、複利、退職、繰上返済、預金、為替レートなど多言語対応の計算ツール集。",
+    keywords: "計算機,ローン計算機,住宅ローン計算機,税務計算機,複利計算機,退職計算機,為替換算",
+  },
+  ko: {
+    title: "글로벌 계산기 허브 - 대출, 세금, 투자, 주택담보대출, 일상 도구",
+    description: "대출, 세금, 복리, 은퇴, 중도상환, 예금, 환율 등 다국어 계산기 모음.",
+    keywords: "계산기,대출계산기,주택담보대출계산기,세금계산기,복리계산기,은퇴계산기,환율환산",
+  },
+  es: {
+    title: "Hub Global de Calculadoras - Préstamos, Impuestos, Inversión, Hipoteca y Herramientas Diarias",
+    description: "Un sitio de calculadoras multilingüe para usuarios globales con herramientas de préstamos, impuestos, ahorro, jubilación, prepago, depósito, tipo de cambio y más.",
+    keywords: "calculadora,calculadora de préstamos,calculadora hipotecaria,calculadora de impuestos,calculadora de interés compuesto,calculadora de jubilación,conversión de divisas",
+  },
+  fr: {
+    title: "Hub Mondial de Calculateurs - Prêts, Impôts, Investissement, Hypothèque et Outils Quotidiens",
+    description: "Un site de calculateurs multilingue pour les utilisateurs mondiaux avec des outils de prêt, impôt, épargne, retraite, remboursement anticipé, dépôt, taux de change et plus.",
+    keywords: "calculateur,calculateur de prêt,calculateur hypothécaire,calculateur fiscal,calculateur de capitalisation,calculateur de retraite,conversion de devises",
+  },
+  de: {
+    title: "Globaler Rechner-Hub - Darlehen, Steuern, Investitionen, Hypotheken und Alltagstools",
+    description: "Eine mehrsprachige Rechner-Website für globale Nutzer mit Darlehens-, Steuer-, Spar-, Renten-, Sondertilgungs-, Einlagen-, Wechselkurs- und weiteren Werkzeugen.",
+    keywords: "Rechner,Darlehensrechner,Hypothekenrechner,Steuerrechner,Zinseszinsrechner,Rentenrechner,Währungsumrechnung",
+  },
+  pt: {
+    title: "Hub Global de Calculadoras - Empréstimos, Impostos, Investimento, Hipoteca e Ferramentas Diárias",
+    description: "Um site de calculadoras multilíngue para usuários globais com ferramentas de empréstimo, imposto, poupança, aposentadoria, amortização, depósito, câmbio e mais.",
+    keywords: "calculadora,calculadora de empréstimo,calculadora hipotecária,calculadora fiscal,calculadora de juros compostos,calculadora de aposentadoria,conversão de câmbio",
+  },
+  ru: {
+    title: "Глобальный хаб калькуляторов - Кредиты, Налоги, Инвестиции, Ипотека и Бытовые инструменты",
+    description: "Многоязычный сайт калькуляторов для пользователей по всему миру: кредиты, налоги, накопления, пенсия, досрочное погашение, вклады, курсы валют и другое.",
+    keywords: "калькулятор,кредитный калькулятор,ипотечный калькулятор,налоговый калькулятор,калькулятор сложных процентов,пенсионный калькулятор,конвертер валют",
+  },
+  ar: {
+    title: "مركز الحاسبات العالمي - قروض، ضرائب، استثمار، رهن عقاري وأدوات يومية",
+    description: "موقع حاسبات متعدد اللغات للمستخدمين العالميين: قروض، ضرائب، مدخرات، تقاعد، سداد مبكر، ودائع، أسعار صرف والمزيد.",
+    keywords: "حاسبة,حاسبة قروض,حاسبة رهن عقاري,حاسبة ضريبة,حاسبة فائدة مركبة,حاسبة تقاعد,تحويل العملات",
+  },
+  hi: {
+    title: "ग्लोबल कैलकुलेटर हब - लोन, टैक्स, निवेश, मॉर्गेज और दैनिक उपकरण",
+    description: "वैश्विक उपयोगकर्ताओं के लिए बहुभाषी कैलकुलेटर वेबसाइट: लोन, टैक्स, बचत, रिटायरमेंट, प्री-पेमेंट, जमा, विनिमय दर और अधिक।",
+    keywords: "कैलकुलेटर,लोन कैलकुलेटर,मॉर्गेज कैलकुलेटर,टैक्स कैलकुलेटर,चक्रवृद्धि ब्याज कैलकुलेटर,रिटायरमेंट कैलकुलेटर,मुद्रा रूपांतरण",
+  },
+};
+
 const STATIC_PAGE_FALLBACK = {
   zh: {
     "/about/": ["关于我们", "我们持续整理与更新贷款、税务、理财和生活测算工具，让用户可以更快完成判断。"],
@@ -1840,18 +1888,17 @@ function injectStructuredData() {
   const title = document.title || SITE.name;
   const description = document.querySelector('meta[name="description"]')?.getAttribute("content") || "";
   const pageUrl = absoluteUrl(basePath(window.location.pathname), currentLanguage);
-  const siteUrl = absoluteUrl("/", currentLanguage);
   const currentPath = basePath(window.location.pathname);
 
   const webSiteSchema = {
     "@type": "WebSite",
-    "@id": `${absoluteUrl("/", "en")}#website`,
+    "@id": `${absoluteUrl("/", currentLanguage)}#website`,
     name: SITE.name,
-    url: absoluteUrl("/", "en"),
+    url: absoluteUrl("/", currentLanguage),
     inLanguage: currentLanguage,
     potentialAction: {
       "@type": "SearchAction",
-      target: { "@type": "EntryPoint", urlTemplate: `${absoluteUrl("/calculators/", "en")}?q={search_term_string}` },
+      target: { "@type": "EntryPoint", urlTemplate: `${absoluteUrl("/calculators/", currentLanguage)}?q={search_term_string}` },
       "query-input": "required name=search_term_string",
     },
   };
@@ -1864,7 +1911,7 @@ function injectStructuredData() {
     description,
     inLanguage: currentLanguage,
     image: OG_IMAGE_URL,
-    isPartOf: { "@id": `${absoluteUrl("/", "en")}#website` },
+    isPartOf: { "@id": `${absoluteUrl("/", currentLanguage)}#website` },
     breadcrumb: {
       "@type": "BreadcrumbList",
       itemListElement: buildBreadcrumbItems(currentPath),
@@ -1928,6 +1975,33 @@ function detectBrowserLanguage() {
 let currentLanguage = detectLanguage();
 const browserLanguage = detectBrowserLanguage();
 
+const REGION_PROFILES = {
+  CN: { code: "CN", countryName: "China", currency: "CNY", taxMode: "cn", units: "metric" },
+  US: { code: "US", countryName: "United States", currency: "USD", taxMode: "us", units: "imperial" },
+  GB: { code: "GB", countryName: "United Kingdom", currency: "GBP", taxMode: "eu", units: "metric" },
+  JP: { code: "JP", countryName: "Japan", currency: "JPY", taxMode: "eu", units: "metric" },
+  KR: { code: "KR", countryName: "South Korea", currency: "KRW", taxMode: "eu", units: "metric" },
+  IN: { code: "IN", countryName: "India", currency: "INR", taxMode: "eu", units: "metric" },
+  DE: { code: "DE", countryName: "Germany", currency: "EUR", taxMode: "eu", units: "metric" },
+  FR: { code: "FR", countryName: "France", currency: "EUR", taxMode: "eu", units: "metric" },
+  ES: { code: "ES", countryName: "Spain", currency: "EUR", taxMode: "eu", units: "metric" },
+  PT: { code: "PT", countryName: "Portugal", currency: "EUR", taxMode: "eu", units: "metric" },
+  IT: { code: "IT", countryName: "Italy", currency: "EUR", taxMode: "eu", units: "metric" },
+  NL: { code: "NL", countryName: "Netherlands", currency: "EUR", taxMode: "eu", units: "metric" },
+  CH: { code: "CH", countryName: "Switzerland", currency: "CHF", taxMode: "eu", units: "metric" },
+  SE: { code: "SE", countryName: "Sweden", currency: "SEK", taxMode: "eu", units: "metric" },
+  NO: { code: "NO", countryName: "Norway", currency: "NOK", taxMode: "eu", units: "metric" },
+  DK: { code: "DK", countryName: "Denmark", currency: "DKK", taxMode: "eu", units: "metric" },
+  PL: { code: "PL", countryName: "Poland", currency: "PLN", taxMode: "eu", units: "metric" },
+  CZ: { code: "CZ", countryName: "Czechia", currency: "CZK", taxMode: "eu", units: "metric" },
+  HU: { code: "HU", countryName: "Hungary", currency: "HUF", taxMode: "eu", units: "metric" },
+  RO: { code: "RO", countryName: "Romania", currency: "RON", taxMode: "eu", units: "metric" },
+  BG: { code: "BG", countryName: "Bulgaria", currency: "BGN", taxMode: "eu", units: "metric" },
+  RU: { code: "RU", countryName: "Russia", currency: "RUB", taxMode: "eu", units: "metric" },
+  BR: { code: "BR", countryName: "Brazil", currency: "BRL", taxMode: "eu", units: "metric" },
+  GLOBAL: { code: "GLOBAL", countryName: "Global", currency: "USD", taxMode: "standard", units: "metric" },
+};
+
 function detectRegion() {
   const locale = navigator.language || "en-US";
   let regionCode = "";
@@ -1942,27 +2016,28 @@ function detectRegion() {
     else if (timeZone.includes("Tokyo")) regionCode = "JP";
     else if (timeZone.includes("Seoul")) regionCode = "KR";
     else if (timeZone.includes("London")) regionCode = "GB";
-    else if (timeZone.includes("Berlin") || timeZone.includes("Paris") || timeZone.includes("Madrid")) regionCode = "EU";
+    else if (timeZone.includes("Berlin")) regionCode = "DE";
+    else if (timeZone.includes("Paris")) regionCode = "FR";
+    else if (timeZone.includes("Madrid")) regionCode = "ES";
+    else if (timeZone.includes("Lisbon")) regionCode = "PT";
+    else if (timeZone.includes("Rome")) regionCode = "IT";
+    else if (timeZone.includes("Amsterdam")) regionCode = "NL";
+    else if (timeZone.includes("Zurich")) regionCode = "CH";
+    else if (timeZone.includes("Stockholm")) regionCode = "SE";
+    else if (timeZone.includes("Oslo")) regionCode = "NO";
+    else if (timeZone.includes("Copenhagen")) regionCode = "DK";
+    else if (timeZone.includes("Warsaw")) regionCode = "PL";
+    else if (timeZone.includes("Prague")) regionCode = "CZ";
+    else if (timeZone.includes("Budapest")) regionCode = "HU";
+    else if (timeZone.includes("Bucharest")) regionCode = "RO";
+    else if (timeZone.includes("Sofia")) regionCode = "BG";
     else if (timeZone.includes("New_York") || timeZone.includes("Chicago") || timeZone.includes("Los_Angeles")) regionCode = "US";
     else if (timeZone.includes("Kolkata")) regionCode = "IN";
     else if (timeZone.includes("Moscow") || timeZone.includes("Yekaterinburg") || timeZone.includes("Krasnoyarsk")) regionCode = "RU";
     else if (timeZone.includes("Sao_Paulo") || timeZone.includes("Fortaleza") || timeZone.includes("Manaus")) regionCode = "BR";
     else regionCode = "GLOBAL";
   }
-
-  const map = {
-    CN: { code: "CN", countryName: "China", currency: "CNY", taxMode: "cn", units: "metric" },
-    US: { code: "US", countryName: "United States", currency: "USD", taxMode: "us", units: "imperial" },
-    GB: { code: "GB", countryName: "United Kingdom", currency: "GBP", taxMode: "eu", units: "metric" },
-    JP: { code: "JP", countryName: "Japan", currency: "JPY", taxMode: "eu", units: "metric" },
-    KR: { code: "KR", countryName: "South Korea", currency: "KRW", taxMode: "eu", units: "metric" },
-    IN: { code: "IN", countryName: "India", currency: "INR", taxMode: "eu", units: "metric" },
-    EU: { code: "EU", countryName: "Europe", currency: "EUR", taxMode: "eu", units: "metric" },
-    RU: { code: "RU", countryName: "Russia", currency: "RUB", taxMode: "eu", units: "metric" },
-    BR: { code: "BR", countryName: "Brazil", currency: "BRL", taxMode: "eu", units: "metric" },
-    GLOBAL: { code: "GLOBAL", countryName: "Global", currency: "USD", taxMode: "standard", units: "metric" },
-  };
-  return map[regionCode] || map.GLOBAL;
+  return REGION_PROFILES[regionCode] || REGION_PROFILES.GLOBAL;
 }
 
 const detectedRegion = detectRegion();
@@ -1970,10 +2045,10 @@ const detectedRegion = detectRegion();
 const LANGUAGE_REGION_MAP = {
   zh: "CN",
   en: "US",
-  es: "EU",
-  fr: "EU",
-  de: "EU",
-  pt: "BR",
+  es: "ES",
+  fr: "FR",
+  de: "DE",
+  pt: "PT",
   ru: "RU",
   ja: "JP",
   ko: "KR",
@@ -1988,7 +2063,21 @@ const REGION_LANGUAGE_MAP = {
   JP: "ja",
   KR: "ko",
   IN: "hi",
-  EU: "en",
+  DE: "de",
+  FR: "fr",
+  ES: "es",
+  PT: "pt",
+  IT: "en",
+  NL: "en",
+  CH: "de",
+  SE: "en",
+  NO: "en",
+  DK: "en",
+  PL: "en",
+  CZ: "en",
+  HU: "en",
+  RO: "en",
+  BG: "en",
   GLOBAL: "en",
 };
 
@@ -1999,26 +2088,28 @@ const LOCALIZED_COUNTRY_NAMES = {
   JP: { zh: "日本", en: "Japan", ja: "日本", ko: "일본", es: "Japón", fr: "Japon", de: "Japan", pt: "Japão", ru: "Япония", ar: "اليابان", hi: "जापान" },
   KR: { zh: "韩国", en: "South Korea", ja: "韓国", ko: "대한민국", es: "Corea del Sur", fr: "Corée du Sud", de: "Südkorea", pt: "Coreia do Sul", ru: "Южная Корея", ar: "كوريا الجنوبية", hi: "दक्षिण कोरिया" },
   IN: { zh: "印度", en: "India", ja: "インド", ko: "인도", es: "India", fr: "Inde", de: "Indien", pt: "Índia", ru: "Индия", ar: "الهند", hi: "भारत" },
-  EU: { zh: "欧洲", en: "Europe", ja: "ヨーロッパ", ko: "유럽", es: "Europa", fr: "Europe", de: "Europa", pt: "Europa", ru: "Европа", ar: "أوروبا", hi: "यूरोप" },
+  DE: { en: "Germany", zh: "德国", ja: "ドイツ", ko: "독일" },
+  FR: { en: "France", zh: "法国", ja: "フランス", ko: "프랑스" },
+  ES: { en: "Spain", zh: "西班牙", ja: "スペイン", ko: "스페인" },
+  PT: { en: "Portugal", zh: "葡萄牙", ja: "ポルトガル", ko: "포르투갈" },
+  IT: { en: "Italy", zh: "意大利", ja: "イタリア", ko: "이탈리아" },
+  NL: { en: "Netherlands", zh: "荷兰", ja: "オランダ", ko: "네덜란드" },
+  CH: { en: "Switzerland", zh: "瑞士", ja: "スイス", ko: "스위스" },
+  SE: { en: "Sweden", zh: "瑞典", ja: "スウェーデン", ko: "스웨덴" },
+  NO: { en: "Norway", zh: "挪威", ja: "ノルウェー", ko: "노르웨이" },
+  DK: { en: "Denmark", zh: "丹麦", ja: "デンマーク", ko: "덴마크" },
+  PL: { en: "Poland", zh: "波兰", ja: "ポーランド", ko: "폴란드" },
+  CZ: { en: "Czechia", zh: "捷克", ja: "チェコ", ko: "체코" },
+  HU: { en: "Hungary", zh: "匈牙利", ja: "ハンガリー", ko: "헝가리" },
+  RO: { en: "Romania", zh: "罗马尼亚", ja: "ルーマニア", ko: "루마니아" },
+  BG: { en: "Bulgaria", zh: "保加利亚", ja: "ブルガリア", ko: "불가리아" },
   RU: { zh: "俄罗斯", en: "Russia", ja: "ロシア", ko: "러시아", es: "Rusia", fr: "Russie", de: "Russland", pt: "Rússia", ru: "Россия", ar: "روسيا", hi: "रूस" },
   BR: { zh: "巴西", en: "Brazil", ja: "ブラジル", ko: "브라질", es: "Brasil", fr: "Brésil", de: "Brasilien", pt: "Brasil", ru: "Бразилия", ar: "البرازيل", hi: "ब्राज़ील" },
   GLOBAL: { zh: "全球", en: "Global", ja: "グローバル", ko: "글로벌", es: "Global", fr: "Global", de: "Global", pt: "Global", ru: "Глобально", ar: "عالمي", hi: "वैश्विक" },
 };
 
 function buildRegionProfile(code) {
-  const map = {
-    CN: { code: "CN", countryName: "China", currency: "CNY", taxMode: "cn", units: "metric" },
-    US: { code: "US", countryName: "United States", currency: "USD", taxMode: "us", units: "imperial" },
-    GB: { code: "GB", countryName: "United Kingdom", currency: "GBP", taxMode: "eu", units: "metric" },
-    JP: { code: "JP", countryName: "Japan", currency: "JPY", taxMode: "eu", units: "metric" },
-    KR: { code: "KR", countryName: "South Korea", currency: "KRW", taxMode: "eu", units: "metric" },
-    IN: { code: "IN", countryName: "India", currency: "INR", taxMode: "eu", units: "metric" },
-    EU: { code: "EU", countryName: "Europe", currency: "EUR", taxMode: "eu", units: "metric" },
-    RU: { code: "RU", countryName: "Russia", currency: "RUB", taxMode: "eu", units: "metric" },
-    BR: { code: "BR", countryName: "Brazil", currency: "BRL", taxMode: "eu", units: "metric" },
-    GLOBAL: { code: "GLOBAL", countryName: "Global", currency: "USD", taxMode: "standard", units: "metric" },
-  };
-  return map[code] || map.GLOBAL;
+  return REGION_PROFILES[code] || REGION_PROFILES.GLOBAL;
 }
 
 function currentRegionSettings() {
@@ -2036,11 +2127,11 @@ function localeForFormatting() {
   const region = currentRegionSettings();
   const localeMap = {
     zh: "zh-CN",
-    en: region.code === "GB" ? "en-GB" : "en-US",
+    en: region.code && region.code !== "GLOBAL" ? `en-${region.code}` : "en-US",
     es: "es-ES",
-    fr: "fr-FR",
-    de: "de-DE",
-    pt: "pt-PT",
+    fr: region.code === "CH" ? "fr-CH" : "fr-FR",
+    de: region.code === "CH" ? "de-CH" : "de-DE",
+    pt: region.code === "BR" ? "pt-BR" : "pt-PT",
     ru: "ru-RU",
     ja: "ja-JP",
     ko: "ko-KR",
@@ -2050,20 +2141,215 @@ function localeForFormatting() {
   return localeMap[currentLanguage] || "en-US";
 }
 
+const SITE_FALLBACK_TRANSLATIONS = {
+  ja: {
+    "Check the payment first, the take-home pay next, and the compounding path before you invest": "まず返済額を確認し、次に手取り収入、投資前に複利の流れを把握しましょう",
+    "Loans, taxes, retirement, compounding, and exchange rates all shape real-life decisions. These pages turn complex formulas into tools that are easier to read, easier to trust, and easier to act on.": "ローン、税金、退職、複利、為替は実生活の判断に大きく影響します。複雑な数式を、読みやすく、信頼しやすく、すぐ行動に移せるツールへ変えます。",
+    "Browse all calculators": "すべての計算機を見る",
+    "Read the guide": "ガイドを見る",
+    "Covers loans, investing, tax, health, math, and everyday decisions": "ローン、投資、税務、健康、数学、日常の判断をカバー",
+    "Fast": "すばやく",
+    "Enter the key numbers and get results with clearer comparisons right away": "主要な数字を入力すると、比較しやすい結果がすぐに表示されます",
+    "Global": "グローバル",
+    "Language and region defaults help each page feel ready from the first visit": "言語と地域の初期設定により、最初の訪問から使いやすくなります",
+    "Save it": "保存したくなる",
+    "Come back, adjust inputs, and compare scenarios before making an expensive decision": "入力値を変えて何度も比較できるので、大きな決断の前に見直せます",
+    "Core entry": "主要入口",
+    "See the numbers clearly before the decision gets expensive": "高額な判断をする前に、重要な数字をはっきり確認する",
+    "Whether you are comparing a mortgage, checking a raise, starting an investment plan, or preparing for retirement, these calculators help you turn uncertainty into something measurable.": "住宅ローンの比較、昇給の確認、投資計画の開始、退職準備など、不確実なものを測定可能な数字に変える手助けをします。",
+    "Loan Calculator": "ローン計算機",
+    "Income Tax Calculator": "所得税計算機",
+    "Mortgage Prepayment Calculator": "住宅ローン繰上返済計算機",
+    "Understand monthly payment, total interest, and long-term cost before committing to a major loan decision.": "大きな借入を決める前に、月返済額、総利息、長期コストを把握しましょう。",
+    "Reveal real take-home pay from salary and deductions so compensation decisions feel grounded, not guessed.": "給与と控除から実際の手取りを見える化し、報酬判断を推測ではなく根拠あるものにします。",
+    "Compare lower-payment and shorter-term strategies to choose the prepayment path that fits your life better.": "返済額を下げる方法と期間を短縮する方法を比較し、自分に合う繰上返済の道を選べます。",
+    "See More": "もっと詳しく",
+    "More than an answer box": "答えを出すだけでは終わらない",
+    "Each calculator goes beyond one result and keeps explaining the outcome with charts, tables, FAQs, and practical guidance.": "各計算機は単なる結果表示にとどまらず、図表、表、FAQ、実用的な説明で結果を理解しやすくします。",
+    "That makes it easier to understand why the number changes, not just what the number is.": "数字がいくらかだけでなく、なぜ変わるのかまで理解しやすくなります。",
+    "When a page feels complete, clear, and easy to compare, it becomes something people save and revisit before making expensive decisions.": "ページが十分に整理され、比較しやすいほど、大きな決断の前に何度も見返したくなるツールになります。",
+    "Feel Local": "地域に合う",
+    "Fast to use, easier to trust, closer to real life": "すぐ使えて、信頼しやすく、実生活に近い",
+    "Language, region, currency, and unit defaults help the site feel familiar from the first visit.": "言語、地域、通貨、単位の初期設定により、最初の訪問から自然に使えます。",
+    "That lowers friction and helps people move from curiosity to confident comparison much faster.": "使い始めの負担を減らし、迷いから比較検討へ素早く進めます。",
+    "If the same site helps with salary choices, mortgage planning, budgeting, and investing, it stops feeling like a one-off tool and starts feeling like a reliable decision companion.": "給与判断、住宅ローン計画、予算管理、投資判断まで同じサイトで支えられると、一度きりのツールではなく信頼できる判断パートナーになります."
+  },
+  de: {
+    "Check the payment first, the take-home pay next, and the compounding path before you invest": "Prüfen Sie zuerst die Rate, dann das Nettoeinkommen und vor der Investition den Zinseszinspfad",
+    "Loans, taxes, retirement, compounding, and exchange rates all shape real-life decisions. These pages turn complex formulas into tools that are easier to read, easier to trust, and easier to act on.": "Kredite, Steuern, Ruhestand, Zinseszins und Wechselkurse prägen reale Entscheidungen. Diese Seiten verwandeln komplexe Formeln in Werkzeuge, die leichter zu lesen, leichter zu verstehen und leichter anzuwenden sind.",
+    "Browse all calculators": "Alle Rechner ansehen",
+    "Read the guide": "Anleitung lesen",
+    "Covers loans, investing, tax, health, math, and everyday decisions": "Deckt Kredite, Investitionen, Steuern, Gesundheit, Mathematik und Alltagsentscheidungen ab",
+    "Fast": "Schnell",
+    "Enter the key numbers and get results with clearer comparisons right away": "Wichtige Zahlen eingeben und sofort besser vergleichbare Ergebnisse sehen",
+    "Global": "Global",
+    "Language and region defaults help each page feel ready from the first visit": "Sprach- und Regionseinstellungen machen jede Seite vom ersten Besuch an vertraut",
+    "Save it": "Speichern",
+    "Come back, adjust inputs, and compare scenarios before making an expensive decision": "Kommen Sie zurück, passen Sie Werte an und vergleichen Sie Szenarien vor einer teuren Entscheidung",
+    "Core entry": "Zentrale Bereiche",
+    "See the numbers clearly before the decision gets expensive": "Zahlen klar sehen, bevor eine Entscheidung teuer wird"
+  },
+  fr: {
+    "Check the payment first, the take-home pay next, and the compounding path before you invest": "Vérifiez d'abord la mensualité, puis le revenu net, puis la trajectoire des intérêts composés avant d'investir",
+    "Loans, taxes, retirement, compounding, and exchange rates all shape real-life decisions. These pages turn complex formulas into tools that are easier to read, easier to trust, and easier to act on.": "Prêts, impôts, retraite, intérêts composés et taux de change influencent les décisions de la vie réelle. Ces pages transforment des formules complexes en outils plus lisibles, plus fiables et plus utiles.",
+    "Browse all calculators": "Voir tous les calculateurs",
+    "Read the guide": "Lire le guide",
+    "Covers loans, investing, tax, health, math, and everyday decisions": "Couvre prêts, investissement, fiscalité, santé, mathématiques et décisions du quotidien",
+    "Fast": "Rapide",
+    "Enter the key numbers and get results with clearer comparisons right away": "Entrez les chiffres clés et obtenez immédiatement des comparaisons plus claires",
+    "Global": "Global",
+    "Language and region defaults help each page feel ready from the first visit": "Les paramètres de langue et de région rendent chaque page prête dès la première visite",
+    "Save it": "À conserver",
+    "Come back, adjust inputs, and compare scenarios before making an expensive decision": "Revenez, ajustez les valeurs et comparez les scénarios avant une décision coûteuse",
+    "Core entry": "Entrée principale",
+    "See the numbers clearly before the decision gets expensive": "Voir clairement les chiffres avant qu'une décision ne coûte cher"
+  },
+  es: {
+    "Check the payment first, the take-home pay next, and the compounding path before you invest": "Primero calcula la cuota, luego el salario neto y antes de invertir revisa el interés compuesto",
+    "Loans, taxes, retirement, compounding, and exchange rates all shape real-life decisions. These pages turn complex formulas into tools that are easier to read, easier to trust, and easier to act on.": "Préstamos, impuestos, jubilación, interés compuesto y tipos de cambio influyen en decisiones reales. Estas páginas convierten fórmulas complejas en herramientas fáciles de leer, confiar y usar.",
+    "Browse all calculators": "Ver todas las calculadoras",
+    "Read the guide": "Leer la guía",
+    "Covers loans, investing, tax, health, math, and everyday decisions": "Cubre préstamos, inversión, impuestos, salud, matemáticas y decisiones diarias",
+    "Fast": "Rápido",
+    "Enter the key numbers and get results with clearer comparisons right away": "Introduce los números clave y obtén resultados comparables al instante",
+    "Global": "Global",
+    "Language and region defaults help each page feel ready from the first visit": "El idioma y la región predeterminados hacen que cada página resulte familiar desde la primera visita",
+    "Save it": "Guárdalo",
+    "Come back, adjust inputs, and compare scenarios before making an expensive decision": "Vuelve, ajusta valores y compara escenarios antes de una decisión costosa",
+    "Core entry": "Entrada principal",
+    "See the numbers clearly before the decision gets expensive": "Ve los números con claridad antes de que la decisión resulte costosa"
+  },
+  pt: {
+    "Check the payment first, the take-home pay next, and the compounding path before you invest": "Primeiro veja a prestação, depois o salário líquido e, antes de investir, o caminho dos juros compostos",
+    "Loans, taxes, retirement, compounding, and exchange rates all shape real-life decisions. These pages turn complex formulas into tools that are easier to read, easier to trust, and easier to act on.": "Empréstimos, impostos, aposentadoria, juros compostos e câmbio influenciam decisões reais. Estas páginas transformam fórmulas complexas em ferramentas mais fáceis de entender e usar.",
+    "Browse all calculators": "Ver todas as calculadoras",
+    "Read the guide": "Ler o guia",
+    "Covers loans, investing, tax, health, math, and everyday decisions": "Cobre empréstimos, investimentos, impostos, saúde, matemática e decisões do dia a dia",
+    "Fast": "Rápido",
+    "Enter the key numbers and get results with clearer comparisons right away": "Digite os números principais e veja comparações mais claras imediatamente",
+    "Global": "Global",
+    "Language and region defaults help each page feel ready from the first visit": "Idioma e região padrão ajudam cada página a parecer pronta desde a primeira visita",
+    "Save it": "Vale salvar",
+    "Come back, adjust inputs, and compare scenarios before making an expensive decision": "Volte, ajuste valores e compare cenários antes de uma decisão cara",
+    "Core entry": "Entrada principal",
+    "See the numbers clearly before the decision gets expensive": "Veja os números com clareza antes de uma decisão cara"
+  },
+  ru: {
+    "Check the payment first, the take-home pay next, and the compounding path before you invest": "Сначала проверьте платёж, затем чистый доход и только потом путь сложного процента",
+    "Loans, taxes, retirement, compounding, and exchange rates all shape real-life decisions. These pages turn complex formulas into tools that are easier to read, easier to trust, and easier to act on.": "Кредиты, налоги, пенсия, сложный процент и курсы валют влияют на реальные решения. Эти страницы превращают сложные формулы в понятные и полезные инструменты.",
+    "Browse all calculators": "Открыть все калькуляторы",
+    "Read the guide": "Открыть руководство",
+    "Covers loans, investing, tax, health, math, and everyday decisions": "Охватывает кредиты, инвестиции, налоги, здоровье, математику и повседневные решения",
+    "Fast": "Быстро",
+    "Enter the key numbers and get results with clearer comparisons right away": "Введите ключевые числа и сразу получите более понятные сравнения",
+    "Global": "Глобально",
+    "Language and region defaults help each page feel ready from the first visit": "Язык и регион по умолчанию делают страницы удобными с первого визита",
+    "Save it": "Сохранить",
+    "Come back, adjust inputs, and compare scenarios before making an expensive decision": "Возвращайтесь, меняйте параметры и сравнивайте сценарии перед дорогим решением",
+    "Core entry": "Основной вход",
+    "See the numbers clearly before the decision gets expensive": "Сначала разберитесь в цифрах, пока решение не стало дорогим"
+  },
+  ko: {
+    "Check the payment first, the take-home pay next, and the compounding path before you invest": "먼저 상환액을 확인하고, 다음은 실수령액, 투자 전에는 복리 흐름을 확인하세요",
+    "Loans, taxes, retirement, compounding, and exchange rates all shape real-life decisions. These pages turn complex formulas into tools that are easier to read, easier to trust, and easier to act on.": "대출, 세금, 은퇴, 복리, 환율은 모두 실제 결정에 영향을 줍니다. 이 페이지는 복잡한 공식을 읽기 쉽고 신뢰하기 쉬운 도구로 바꿔 줍니다.",
+    "Browse all calculators": "모든 계산기 보기",
+    "Read the guide": "가이드 보기",
+    "Covers loans, investing, tax, health, math, and everyday decisions": "대출, 투자, 세금, 건강, 수학, 일상 결정을 포괄",
+    "Fast": "빠르게",
+    "Enter the key numbers and get results with clearer comparisons right away": "핵심 숫자를 입력하면 더 명확한 결과 비교를 바로 확인할 수 있습니다",
+    "Global": "글로벌",
+    "Language and region defaults help each page feel ready from the first visit": "언어와 지역 기본값이 첫 방문부터 페이지를 익숙하게 만들어 줍니다",
+    "Save it": "저장할 가치",
+    "Come back, adjust inputs, and compare scenarios before making an expensive decision": "다시 와서 값을 바꾸고 중요한 결정 전에 시나리오를 비교해 보세요",
+    "Core entry": "핵심 입구",
+    "See the numbers clearly before the decision gets expensive": "비용이 큰 결정을 하기 전에 숫자를 분명하게 보세요"
+  },
+  ar: {
+    "Check the payment first, the take-home pay next, and the compounding path before you invest": "تحقق أولاً من القسط، ثم صافي الدخل، ثم مسار الفائدة المركبة قبل أن تستثمر",
+    "Loans, taxes, retirement, compounding, and exchange rates all shape real-life decisions. These pages turn complex formulas into tools that are easier to read, easier to trust, and easier to act on.": "القروض والضرائب والتقاعد والفائدة المركبة وأسعار الصرف كلها تؤثر في القرارات الواقعية. هذه الصفحات تحول المعادلات المعقدة إلى أدوات أسهل قراءةً وثقةً واستخداماً.",
+    "Browse all calculators": "تصفح جميع الحاسبات",
+    "Read the guide": "اقرأ الدليل",
+    "Covers loans, investing, tax, health, math, and everyday decisions": "يغطي القروض والاستثمار والضرائب والصحة والرياضيات والقرارات اليومية",
+    "Fast": "سريع",
+    "Enter the key numbers and get results with clearer comparisons right away": "أدخل الأرقام الأساسية وشاهد النتائج والمقارنات فوراً",
+    "Global": "عالمي",
+    "Language and region defaults help each page feel ready from the first visit": "إعدادات اللغة والمنطقة تجعل الصفحة جاهزة من أول زيارة",
+    "Save it": "احفظه",
+    "Come back, adjust inputs, and compare scenarios before making an expensive decision": "ارجع وعدل القيم وقارن السيناريوهات قبل اتخاذ قرار مكلف",
+    "Core entry": "المدخل الأساسي",
+    "See the numbers clearly before the decision gets expensive": "افهم الأرقام بوضوح قبل أن يصبح القرار مكلفاً"
+  },
+  hi: {
+    "Check the payment first, the take-home pay next, and the compounding path before you invest": "पहले किस्त देखें, फिर हाथ में आने वाली आय, और निवेश से पहले चक्रवृद्धि का रास्ता समझें",
+    "Loans, taxes, retirement, compounding, and exchange rates all shape real-life decisions. These pages turn complex formulas into tools that are easier to read, easier to trust, and easier to act on.": "लोन, टैक्स, रिटायरमेंट, चक्रवृद्धि और विनिमय दरें वास्तविक फैसलों को प्रभावित करती हैं। ये पेज जटिल सूत्रों को ऐसे टूल में बदलते हैं जिन्हें पढ़ना, समझना और उपयोग करना आसान हो।",
+    "Browse all calculators": "सभी कैलकुलेटर देखें",
+    "Read the guide": "गाइड पढ़ें",
+    "Covers loans, investing, tax, health, math, and everyday decisions": "लोन, निवेश, टैक्स, स्वास्थ्य, गणित और रोज़मर्रा के फैसलों को कवर करता है",
+    "Fast": "तेज़",
+    "Enter the key numbers and get results with clearer comparisons right away": "मुख्य संख्याएँ दर्ज करें और तुरंत स्पष्ट तुलना वाले परिणाम देखें",
+    "Global": "वैश्विक",
+    "Language and region defaults help each page feel ready from the first visit": "भाषा और क्षेत्र की डिफ़ॉल्ट सेटिंग्स पहली ही बार से पेज को परिचित बनाती हैं",
+    "Save it": "सहेजने लायक",
+    "Come back, adjust inputs, and compare scenarios before making an expensive decision": "वापस आएँ, मान बदलें और महँगा फैसला लेने से पहले तुलना करें",
+    "Core entry": "मुख्य प्रवेश",
+    "See the numbers clearly before the decision gets expensive": "फैसला महँगा होने से पहले संख्याएँ साफ़ देखें"
+  }
+};
+
+function localizeSiteEnglishText(text) {
+  if (typeof text !== "string" || currentLanguage === "en" || currentLanguage === "zh") return text;
+  const translations = SITE_FALLBACK_TRANSLATIONS[currentLanguage];
+  if (!translations) return text;
+  if (translations[text]) return translations[text];
+  return Object.entries(translations)
+    .sort((a, b) => b[0].length - a[0].length)
+    .reduce((acc, [source, target]) => acc.split(source).join(target), text);
+}
+
+function localizeSiteValue(value) {
+  if (typeof value === "string") return localizeSiteEnglishText(value);
+  if (Array.isArray(value)) return value.map(localizeSiteValue);
+  if (value && typeof value === "object") {
+    return Object.fromEntries(Object.entries(value).map(([key, entry]) => [key, localizeSiteValue(entry)]));
+  }
+  return value;
+}
+
+function localizedSiteBucket(bucket) {
+  if (!bucket) return null;
+  if (bucket[currentLanguage]) return bucket[currentLanguage];
+  if (currentLanguage === "zh") return bucket.zh || bucket.en || null;
+  return localizeSiteValue(bucket.en || bucket.zh || null);
+}
+
 function tCommon(key) {
-  return (COMMON_COPY[currentLanguage] && COMMON_COPY[currentLanguage][key]) || COMMON_COPY.en[key];
+  const active = COMMON_COPY[currentLanguage];
+  if (active && Object.prototype.hasOwnProperty.call(active, key)) return active[key];
+  return localizeSiteValue(COMMON_COPY.en[key]);
 }
 
 function pathCopy(pathname) {
   const path = basePath(pathname);
-  return (PAGE_COPY[path] && (PAGE_COPY[path][currentLanguage] || PAGE_COPY[path].en || PAGE_COPY[path].zh)) || null;
+  if (path === "/") {
+    const home = PAGE_COPY["/"];
+    if (!home) return null;
+    if (home[currentLanguage]) return home[currentLanguage];
+    const meta = HOME_PAGE_META[currentLanguage];
+    if (meta) {
+      return {
+        ...meta,
+        items: localizeSiteValue((home.en && home.en.items) || (home.zh && home.zh.items) || {}),
+      };
+    }
+  }
+  return localizedSiteBucket(PAGE_COPY[path]);
 }
 
 function staticPageCopy(pathname) {
   const path = basePath(pathname);
   const bucket = STATIC_PAGE_CONTENT[path];
   if (!bucket) return null;
-  return bucket[currentLanguage] || bucket.en || bucket.zh || null;
+  return localizedSiteBucket(bucket);
 }
 
 function setLanguage(lang) {
@@ -2260,6 +2546,7 @@ const OG_IMAGE_H = "630";
 
 function applyCommonSeoMeta(title, description, pageUrl) {
   const locale = localeForFormatting().replace("-", "_");
+  setHeadMeta("robots", "index,follow,max-image-preview:large");
   setHeadMeta("og:site_name", SITE.name, true);
   setHeadMeta("og:locale", locale, true);
   setHeadMeta("og:image", OG_IMAGE_URL, true);
@@ -2341,11 +2628,11 @@ function applyPageTranslations() {
   applyCommonSeoMeta(fallbackTitle, fallbackDesc, fallbackUrl);
 }
 
-function formatCurrency(value, currency = "CNY") {
+function formatCurrency(value, currency = null) {
   return new Intl.NumberFormat(localeForFormatting(), {
     style: "currency",
     currency: currency || currentRegionSettings().currency || "USD",
-    currencyDisplay: "narrowSymbol",
+    currencyDisplay: "symbol",
     maximumFractionDigits: 2,
   }).format(Number.isFinite(value) ? value : 0);
 }
@@ -2364,6 +2651,9 @@ function formatNumber(value, digits = 2) {
 window.__siteI18n = {
   get language() {
     return currentLanguage;
+  },
+  get locale() {
+    return localeForFormatting();
   },
   get regionSettings() {
     return currentRegionSettings();

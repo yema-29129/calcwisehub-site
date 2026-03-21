@@ -8,8 +8,12 @@ function region() {
   return window.__siteI18n?.regionSettings || { currency: "USD", countryName: "Global", taxMode: "standard", units: "metric" };
 }
 
+function locale() {
+  return window.__siteI18n?.locale || navigator.language || "en-US";
+}
+
 function tPair(zh, en) {
-  return lang() === "zh" ? zh : en;
+  return localizedPairText({ zh, en });
 }
 
 const CALCULATOR_TERM_TRANSLATIONS = {
@@ -216,6 +220,88 @@ function localizedPairText(bucket) {
   return localizeEnglishText(bucket.en || bucket.zh || "");
 }
 
+const SEO_LABELS = {
+  zh: { online: "在线计算器", tool: "工具", free: "免费", guide: "结果说明", faq: "常见问题" },
+  en: { online: "online calculator", tool: "tool", free: "free", guide: "result guide", faq: "FAQ" },
+  ja: { online: "オンライン計算機", tool: "ツール", free: "無料", guide: "結果ガイド", faq: "よくある質問" },
+  ko: { online: "온라인 계산기", tool: "도구", free: "무료", guide: "결과 가이드", faq: "자주 묻는 질문" },
+  es: { online: "calculadora online", tool: "herramienta", free: "gratis", guide: "guía de resultados", faq: "preguntas frecuentes" },
+  fr: { online: "calculateur en ligne", tool: "outil", free: "gratuit", guide: "guide des résultats", faq: "FAQ" },
+  de: { online: "Online-Rechner", tool: "Tool", free: "kostenlos", guide: "Ergebnisleitfaden", faq: "FAQ" },
+  pt: { online: "calculadora online", tool: "ferramenta", free: "grátis", guide: "guia de resultados", faq: "perguntas frequentes" },
+  ru: { online: "онлайн-калькулятор", tool: "инструмент", free: "бесплатно", guide: "разбор результата", faq: "FAQ" },
+  ar: { online: "حاسبة أونلاين", tool: "أداة", free: "مجاني", guide: "شرح النتائج", faq: "الأسئلة الشائعة" },
+  hi: { online: "ऑनलाइन कैलकुलेटर", tool: "टूल", free: "फ्री", guide: "रिजल्ट गाइड", faq: "अक्सर पूछे जाने वाले सवाल" },
+};
+
+function seoLabels() {
+  return SEO_LABELS[lang()] || SEO_LABELS.en;
+}
+
+function uniqueStrings(items) {
+  const seen = new Set();
+  return items.filter((item) => {
+    const value = String(item || "").trim();
+    if (!value) return false;
+    const key = value.toLowerCase();
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
+
+function localizedSeoDescription(pageTitle, pageSubtitle, quickItems) {
+  const labels = seoLabels();
+  const bullets = uniqueStrings(quickItems || []).slice(0, 3);
+  const joinerMap = {
+    zh: "；",
+    ja: "、",
+    ko: ", ",
+    es: ", ",
+    fr: ", ",
+    de: ", ",
+    pt: ", ",
+    ru: ", ",
+    ar: "، ",
+    hi: ", ",
+  };
+  const tailMap = {
+    zh: `支持在线测算、结果对比、图表说明与常见问题查看。`,
+    ja: `オンライン試算、結果比較、グラフ確認、${labels.faq}に対応しています。`,
+    ko: `온라인 계산, 결과 비교, 차트 확인, ${labels.faq}까지 한 페이지에서 제공합니다.`,
+    es: `Permite calcular online, comparar resultados, revisar gráficos y consultar ${labels.faq}.`,
+    fr: `Permet le calcul en ligne, la comparaison des résultats, la lecture des graphiques et la consultation de la ${labels.faq}.`,
+    de: `Unterstützt Online-Berechnung, Ergebnisvergleich, Diagramme und ${labels.faq}.`,
+    pt: `Permite calcular online, comparar resultados, ver gráficos e consultar ${labels.faq}.`,
+    ru: `Поддерживает онлайн-расчёт, сравнение результатов, графики и ${labels.faq}.`,
+    ar: `تدعم الحساب أونلاين، ومقارنة النتائج، وقراءة الرسوم البيانية، و${labels.faq}.`,
+    hi: `ऑनलाइन गणना, रिजल्ट तुलना, चार्ट और ${labels.faq} एक ही पेज में मिलते हैं।`,
+  };
+  const separator = joinerMap[lang()] || ", ";
+  const detail = bullets.length ? ` ${bullets.join(separator)}。` : "";
+  return `${pageTitle} - ${pageSubtitle}${detail} ${tailMap[lang()] || tailMap.en}`.trim();
+}
+
+function localizedSeoKeywords(config, localizedName, localizedCategory, localizedQuick) {
+  const labels = seoLabels();
+  const localizedCategoryParts = String(localizedCategory || "")
+    .split(/[\//]/)
+    .map((item) => item.trim())
+    .filter(Boolean);
+  return uniqueStrings([
+    localizedName,
+    `${localizedName} ${labels.online}`,
+    `${labels.free} ${localizedName}`,
+    `${localizedName} ${labels.tool}`,
+    localizedCategory,
+    ...localizedCategoryParts,
+    ...localizedQuick,
+    labels.guide,
+    labels.faq,
+    "calcwisehub",
+  ]).join(",");
+}
+
 function money(value) {
   return window.__siteI18n.formatCurrency(value, region().currency || "USD");
 }
@@ -255,21 +341,24 @@ function renderCatalog() {
           return haystack.includes(lower);
         });
       if (!groupItems.length) return "";
+      const groupBadge = localizedPairText({ zh: group.zh, en: group.en });
+      const groupTitle = localizedPairText({ zh: group.titleZh, en: group.titleEn });
+      const groupDesc = localizedPairText({ zh: group.descZh, en: group.descEn });
       return `
         <section class="catalog-group">
           <div class="catalog-group__head">
             <div>
-              <span class="badge">${lang() === "zh" ? group.zh : group.en}</span>
-              <h2>${lang() === "zh" ? group.titleZh : group.titleEn}</h2>
+              <span class="badge">${groupBadge}</span>
+              <h2>${groupTitle}</h2>
             </div>
-            <p>${lang() === "zh" ? group.descZh : group.descEn}</p>
+            <p>${groupDesc}</p>
           </div>
           <div class="catalog-group__grid">
             ${groupItems.map((item, index) => {
               const config = item.config;
-              const name = config.name[lang()] || config.name.en;
-              const subtitle = config.subtitle[lang()] || config.subtitle.en;
-              const category = config.category[lang()] || config.category.en;
+              const name = config.name[lang()] || localizedPairText({ zh: config.name.zh, en: config.name.en });
+              const subtitle = config.subtitle[lang()] || localizedPairText({ zh: config.subtitle.zh, en: config.subtitle.en });
+              const category = config.category[lang()] || localizedPairText({ zh: config.category.zh, en: config.category.en });
               return `
                 <a class="calc-card" href="${localPath(`/calculators/${item.slug}/`)}">
                   <div class="badge">${String(index + 1).padStart(2, "0")} · ${category}</div>
@@ -303,9 +392,22 @@ function createSeries(finalValue, years, scale = 1) {
 }
 
 function createLabels(length, suffixZh = "年", suffixEn = "y") {
+  const suffixMap = {
+    zh: suffixZh,
+    ja: "年",
+    ko: "년",
+    es: " a",
+    fr: " an",
+    de: " J",
+    pt: " a",
+    ru: " г.",
+    ar: " سنة",
+    hi: " वर्ष",
+  };
   return Array.from({ length }, (_, index) => {
     const value = index + 1;
-    return lang() === "zh" ? `${value}${suffixZh}` : `${value}${suffixEn}`;
+    const suffix = suffixMap[lang()] || suffixEn;
+    return `${value}${suffix}`;
   });
 }
 
@@ -347,7 +449,7 @@ function daysBetween(startDate, endDate) {
 function formatDate(date) {
   if (!(date instanceof Date) || Number.isNaN(date.getTime())) return "--";
   try {
-    return new Intl.DateTimeFormat(lang() === "zh" ? "zh-CN" : "en-US", {
+    return new Intl.DateTimeFormat(locale(), {
       year: "numeric",
       month: "long",
       day: "numeric",
@@ -359,7 +461,7 @@ function formatDate(date) {
 
 function pluralize(value, zhUnit, enSingular, enPlural) {
   if (lang() === "zh") return `${value}${zhUnit}`;
-  return `${value} ${value === 1 ? enSingular : enPlural}`;
+  return localizeEnglishText(`${value} ${value === 1 ? enSingular : enPlural}`);
 }
 
 function monthlyPayment(principal, annualRate, years) {
@@ -1167,7 +1269,25 @@ function futureValueMonthly(initial, monthlyContribution, annualRate, months) {
 }
 
 function createMonthLabels(length) {
-  return Array.from({ length }, (_, index) => lang() === "zh" ? `${index + 1}月` : `M${index + 1}`);
+  const monthPrefixMap = {
+    zh: "",
+    ja: "",
+    ko: "",
+    es: "Mes ",
+    fr: "Mois ",
+    de: "Monat ",
+    pt: "Mês ",
+    ru: "Месяц ",
+    ar: "شهر ",
+    hi: "माह ",
+  };
+  return Array.from({ length }, (_, index) => {
+    const value = index + 1;
+    const current = lang();
+    if (["zh", "ja"].includes(current)) return `${value}月`;
+    if (current === "ko") return `${value}개월`;
+    return `${monthPrefixMap[current] || "M"}${value}`;
+  });
 }
 
 function createQuarterLabels(length) {
@@ -2419,27 +2539,13 @@ function applyConfigToPage(config) {
   if (quick) quick.innerHTML = (config.quick[lang()] || config.quick.en || []).map((item) => `<div class="mini-stat"><strong>${localizeEnglishText(item)}</strong><span>${tPair("适合收藏和反复试算", "Built for repeat exploration and saves")}</span></div>`).join("");
   const pageTitle = localizedName;
   const pageSubtitle = localizedSubtitle;
-  const quickItems = config.quick[lang()] || config.quick.en;
-  const extraKeywords = [
-    ...((config.seoKeywords && config.seoKeywords.zh) || []),
-    ...((config.seoKeywords && config.seoKeywords.en) || []),
-  ];
-  const keywords = [
-    config.name.zh,
-    config.name.en,
-    config.category.zh,
-    config.category.en,
-    ...config.quick.zh,
-    ...config.quick.en,
-    ...extraKeywords,
-    tPair("在线计算器", "online calculator"),
-    "calcwisehub",
-  ]
-    .filter(Boolean)
-    .join(",");
-  const description = config.metaDescription?.[lang()] || config.metaDescription?.en || `${pageTitle}：${pageSubtitle}${quickItems.length ? ` ${quickItems.join("，")}。` : ""}`;
+  const quickItems = (config.quick[lang()] || config.quick.en || []).map((item) => localizeEnglishText(item));
+  const keywords = localizedSeoKeywords(config, pageTitle, localizedCategory, quickItems);
+  const description = config.metaDescription?.[lang()]
+    || localizedSeoDescription(pageTitle, pageSubtitle, quickItems);
   setHeadMeta("description", description);
   setHeadMeta("keywords", keywords);
+  setHeadMeta("robots", "index,follow,max-image-preview:large");
   setHeadMeta("og:title", pageTitle, true);
   setHeadMeta("og:description", description, true);
   setHeadMeta("og:url", window.location.href, true);
