@@ -1,7 +1,6 @@
 import fs from "fs";
 import path from "path";
 import vm from "vm";
-import { execFileSync } from "child_process";
 
 const ROOT = process.cwd();
 const LANGUAGES = ["zh", "en", "es", "fr", "de", "pt", "ru", "ja", "ko", "ar", "hi"];
@@ -32,10 +31,28 @@ function replaceInputPlaceholder(html, i18nKey, value) {
   return html.replace(pattern, `$1${escapeAttr(value)}$3`);
 }
 
+function replaceBody(html, bodyHtml) {
+  return html.replace(/<body[\s\S]*<\/body>/i, bodyHtml);
+}
+
 function localizedFilePath(lang, relativePath) {
   if (lang === "zh") return path.join(ROOT, relativePath);
   return path.join(ROOT, lang, relativePath);
 }
+
+const CALC_PAGE_COPY = {
+  zh: { home: "首页", catalog: "计算器合集", formTitle: "直接输入参数开始测算" },
+  en: { home: "Home", catalog: "Calculators", formTitle: "Enter inputs and start" },
+  es: { home: "Inicio", catalog: "Calculadoras", formTitle: "Introduce datos y empieza" },
+  fr: { home: "Accueil", catalog: "Calculatrices", formTitle: "Saisissez les données et lancez le calcul" },
+  de: { home: "Start", catalog: "Rechner", formTitle: "Werte eingeben und starten" },
+  pt: { home: "Início", catalog: "Calculadoras", formTitle: "Insira os dados e comece" },
+  ru: { home: "Главная", catalog: "Калькуляторы", formTitle: "Введите параметры и начните" },
+  ja: { home: "ホーム", catalog: "計算機一覧", formTitle: "条件を入れてすぐ試算" },
+  ko: { home: "홈", catalog: "계산기 모음", formTitle: "값을 넣고 바로 계산" },
+  ar: { home: "الرئيسية", catalog: "مجموعة الحاسبات", formTitle: "أدخل القيم وابدأ الحساب" },
+  hi: { home: "होम", catalog: "कैलकुलेटर सूची", formTitle: "इनपुट भरें और शुरू करें" },
+};
 
 function detectLangAndSlug(filePath) {
   const relative = path.relative(ROOT, filePath).split(path.sep);
@@ -166,6 +183,7 @@ function loadCalculatorHelpers() {
   const appended = `${calcCode}
 ${extraCode}
 globalThis.__calcExports = {
+  slugs: Object.keys(calculatorConfigs),
   getSeoData(slug, lang) {
     window.__siteI18n.language = lang;
     const config = calculatorConfigs[slug];
@@ -193,6 +211,65 @@ globalThis.__calcExports = {
 };`;
   vm.runInNewContext(appended, sandbox, { filename: "assets/calculators.bundle.js" });
   return sandbox.__calcExports;
+}
+
+function absoluteUrl(lang, slug) {
+  return lang === "zh"
+    ? `https://calcwisehub.com/calculators/${slug}/`
+    : `https://calcwisehub.com/${lang}/calculators/${slug}/`;
+}
+
+function calculatorPageTemplate({ lang, slug, seo }) {
+  const hreflangs = LANGUAGES.map((item) => {
+    const code = item === "zh" ? "zh-CN" : item;
+    return `    <link rel="alternate" hreflang="${code}" href="${absoluteUrl(item, slug)}" />`;
+  }).join("\n");
+  const canonical = absoluteUrl(lang, slug);
+  const xDefault = absoluteUrl("en", slug);
+  return `<!DOCTYPE html>
+<html lang="${lang === "zh" ? "zh" : lang}">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>${escapeHtml(seo.title)}</title>
+    <meta name="description" content="${escapeAttr(seo.description)}" />
+    <meta name="keywords" content="${escapeAttr(seo.keywords)}" />
+    <link rel="canonical" href="${canonical}" />
+${hreflangs}
+    <link rel="alternate" hreflang="x-default" href="${xDefault}" />
+
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <meta property="og:title" content="${escapeAttr(seo.name)}" />
+    <meta property="og:description" content="${escapeAttr(seo.description)}" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="${canonical}" />
+    <meta property="og:image" content="https://calcwisehub.com/assets/og-cover.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://calcwisehub.com/assets/og-cover.jpg" />
+    <link rel="icon" href="/assets/favicon.svg?v=20260323a" type="image/svg+xml" />
+    <link rel="stylesheet" href="/assets/styles.css?v=20260323a" />
+    <script src="/assets/site.js?v=20260323a" defer></script>
+    <script src="/assets/calculators.js?v=20260323a" defer></script>
+    <script src="/assets/calculators-extra.js?v=20260323a" defer></script>
+  </head>
+  <body></body>
+</html>
+`;
+}
+
+function ensureCalculatorPages(calcHelpers) {
+  for (const slug of calcHelpers.slugs || []) {
+    for (const lang of LANGUAGES) {
+      const filePath = localizedFilePath(lang, `calculators/${slug}/index.html`);
+      if (fs.existsSync(filePath)) continue;
+      const seo = calcHelpers.getSeoData(slug, lang);
+      if (!seo) continue;
+      fs.mkdirSync(path.dirname(filePath), { recursive: true });
+      fs.writeFileSync(filePath, calculatorPageTemplate({ lang, slug, seo }));
+    }
+  }
 }
 
 function updateHomeAndDirectoryPages(siteHelpers) {
@@ -229,14 +306,14 @@ function updateCalculatorPages(calcHelpers) {
     if (!info) continue;
     const seo = calcHelpers.getSeoData(info.slug, info.lang);
     if (!seo) continue;
-    const repoRelative = path.relative(ROOT, filePath).split(path.sep).join("/");
-    let html = execFileSync("git", ["show", `HEAD:${repoRelative}`], { cwd: ROOT, encoding: "utf8" });
-    html = replaceTagContent(html, "data-calc-title", seo.name);
-    html = replaceTagContent(html, "data-calc-category", seo.category);
-    html = replaceTagContent(html, "data-calc-subtitle", seo.subtitle);
-    html = replaceTagContent(html, "data-submit-label", seo.submitLabel);
-    html = replaceTagContent(html, "data-result-heading", seo.resultHeading);
-    html = replaceTagContent(html, "data-disclaimer", seo.disclaimer);
+    let html = fs.readFileSync(filePath, "utf8");
+    html = replaceTitle(html, seo.title);
+    html = html.replace(/<meta name="description" content="[^"]*"\s*\/?>/i, `<meta name="description" content="${escapeAttr(seo.description)}" />`);
+    html = html.replace(/<meta name="keywords" content="[^"]*"\s*\/?>/i, `<meta name="keywords" content="${escapeAttr(seo.keywords)}" />`);
+    html = html.replace(/<link rel="canonical" href="[^"]*"\s*\/?>/i, `<link rel="canonical" href="${absoluteUrl(info.lang, info.slug)}" />`);
+    html = html.replace(/<meta property="og:title" content="[^"]*"\s*\/?>/i, `<meta property="og:title" content="${escapeAttr(seo.name)}" />`);
+    html = html.replace(/<meta property="og:description" content="[^"]*"\s*\/?>/i, `<meta property="og:description" content="${escapeAttr(seo.description)}" />`);
+    html = html.replace(/<meta property="og:url" content="[^"]*"\s*\/?>/i, `<meta property="og:url" content="${absoluteUrl(info.lang, info.slug)}" />`);
     const quickHtml = seo.quickItems
       .map((item) => `<div class="mini-stat"><strong>${escapeHtml(item)}</strong><span>${escapeHtml({
         zh: "适合收藏和反复试算",
@@ -252,7 +329,68 @@ function updateCalculatorPages(calcHelpers) {
         hi: "सेव करके बार-बार तुलना करने के लिए उपयोगी",
       }[info.lang] || "Built for repeat exploration and saves")}</span></div>`)
       .join("");
-    html = replaceTagContent(html, "data-calc-quick", quickHtml, { raw: true });
+    const shellCopy = CALC_PAGE_COPY[info.lang] || CALC_PAGE_COPY.en;
+    const body = `<body>
+    <div data-site-header></div>
+    <main class="calc-page">
+      <section class="page-hero">
+        <div class="container">
+          <div class="breadcrumb"><a href="/">${escapeHtml(shellCopy.home)}</a><span>/</span><a href="/calculators/">${escapeHtml(shellCopy.catalog)}</a><span>/</span><span data-calc-title>${escapeHtml(seo.name)}</span></div>
+        </div>
+      </section>
+      <section class="container calc-shell">
+        <div class="calc-main">
+          <section class="calc-hero-stack content-card">
+            <article class="calc-hero-stack__content">
+              <div class="calc-hero-card__meta">
+                <span class="badge" data-calc-category>${escapeHtml(seo.category)}</span>
+                <span class="tag" data-region-context></span>
+              </div>
+              <h1 data-calc-title>${escapeHtml(seo.name)}</h1>
+              <p data-calc-subtitle>${escapeHtml(seo.subtitle)}</p>
+              <div class="calc-hero-card__quick" data-calc-quick>${quickHtml}</div>
+            </article>
+            <div class="calc-form-panel">
+              <div class="form-panel__head">
+                <span class="badge">${escapeHtml(shellCopy.formTitle)}</span>
+                <h2>${escapeHtml(seo.resultHeading)}</h2>
+                <p data-form-prompt></p>
+              </div>
+              <form class="calc-form" data-calculator-form="${escapeAttr(info.slug)}">
+                <div class="form-grid" data-fields></div>
+                <div data-hero-presets></div>
+                <div class="button-row">
+                  <button type="submit" data-submit-label>${escapeHtml(seo.submitLabel)}</button>
+                  <span class="live-feedback" data-live-feedback></span>
+                </div>
+              </form>
+            </div>
+          </section>
+          <section data-result-overview></section>
+          <section data-comparisons></section>
+          <section data-decision-guide></section>
+          <section data-scenarios></section>
+          <section class="article-grid" data-charts></section>
+          <section class="article-grid" data-article></section>
+          <section class="article-grid" data-faq></section>
+          <section data-related-tools></section>
+        </div>
+        <aside class="calc-sidebar">
+          <div class="result sticky-card result-panel">
+            <h2 data-result-heading>${escapeHtml(seo.resultHeading)}</h2>
+            <div class="result__grid" data-result-grid></div>
+            <p data-result-note></p>
+            <div data-result-actions></div>
+            <div class="disclaimer" data-disclaimer>${escapeHtml(seo.disclaimer)}</div>
+            <div data-ad-slot="${escapeAttr(`${info.slug}-sidebar`)}"></div>
+          </div>
+        </aside>
+      </section>
+    </main>
+    <div class="mobile-summary" data-mobile-summary></div>
+    <div data-site-footer></div>
+  </body>`;
+    html = replaceBody(html, body);
     fs.writeFileSync(filePath, html);
   }
 }
@@ -261,6 +399,7 @@ const siteHelpers = loadSiteHelpers();
 const calcHelpers = loadCalculatorHelpers();
 
 updateHomeAndDirectoryPages(siteHelpers);
+ensureCalculatorPages(calcHelpers);
 updateCalculatorPages(calcHelpers);
 
 console.log("Static locale generation complete.");

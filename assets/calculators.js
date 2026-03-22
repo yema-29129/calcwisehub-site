@@ -16,6 +16,273 @@ function tPair(zh, en) {
   return localizedPairText({ zh, en });
 }
 
+const CALC_UI = {
+  heroPresetLabel: {
+    zh: "常用预设",
+    en: "Quick presets",
+    ja: "よく使うプリセット",
+    ko: "자주 쓰는 프리셋",
+    es: "Ajustes rápidos",
+    fr: "Préréglages rapides",
+    de: "Schnellvorgaben",
+    pt: "Presets rápidos",
+    ru: "Быстрые сценарии",
+    ar: "إعدادات سريعة",
+    hi: "क्विक प्रीसेट",
+  },
+  formPrompt: {
+    zh: "先填关键参数，结果会自动刷新。",
+    en: "Fill in the key inputs. Results refresh automatically.",
+    ja: "主要な条件を入れると、結果が自動で更新されます。",
+    ko: "핵심 조건을 입력하면 결과가 자동으로 갱신됩니다.",
+    es: "Completa los datos clave y los resultados se actualizan automáticamente.",
+    fr: "Renseignez les données clés, les résultats se mettent à jour automatiquement.",
+    de: "Trage die wichtigsten Werte ein. Die Ergebnisse aktualisieren sich automatisch.",
+    pt: "Preencha os dados principais e os resultados serão atualizados automaticamente.",
+    ru: "Введите основные параметры, и результаты обновятся автоматически.",
+    ar: "أدخل القيم الأساسية وسيتم تحديث النتائج تلقائياً.",
+    hi: "मुख्य इनपुट भरें, रिजल्ट अपने आप अपडेट होंगे।",
+  },
+  liveReady: {
+    zh: "已根据当前输入自动刷新",
+    en: "Auto-refreshed for the current inputs",
+    ja: "現在の入力に合わせて自動更新済み",
+    ko: "현재 입력값에 맞춰 자동 갱신됨",
+    es: "Actualizado automáticamente con los datos actuales",
+    fr: "Mis à jour automatiquement avec vos données actuelles",
+    de: "Automatisch mit den aktuellen Eingaben aktualisiert",
+    pt: "Atualizado automaticamente com os dados atuais",
+    ru: "Автоматически обновлено по текущим параметрам",
+    ar: "تم التحديث تلقائياً وفق القيم الحالية",
+    hi: "मौजूदा इनपुट के हिसाब से ऑटो अपडेट",
+  },
+  livePending: {
+    zh: "输入变化后正在重新计算…",
+    en: "Recalculating after input changes...",
+    ja: "入力変更に合わせて再計算中…",
+    ko: "입력 변경 후 다시 계산 중...",
+    es: "Recalculando tras los cambios...",
+    fr: "Recalcul en cours après modification...",
+    de: "Nach Änderungen wird neu berechnet...",
+    pt: "Recalculando após as alterações...",
+    ru: "Пересчитываем после изменения параметров...",
+    ar: "يتم إعادة الحساب بعد تغيير المدخلات...",
+    hi: "इनपुट बदलने के बाद दोबारा कैलकुलेट हो रहा है...",
+  },
+  overviewBadge: {
+    zh: "结果总览",
+    en: "Result summary",
+    ja: "結果サマリー",
+    ko: "결과 요약",
+    es: "Resumen",
+    fr: "Résumé",
+    de: "Ergebnisüberblick",
+    pt: "Resumo",
+    ru: "Сводка результата",
+    ar: "ملخص النتائج",
+    hi: "रिजल्ट सारांश",
+  },
+  overviewTitle: {
+    zh: "先看最影响判断的 3 到 4 个数字",
+    en: "Start with the 3 to 4 numbers that drive the decision",
+    ja: "まずは判断に効く 3〜4 個の数字から確認",
+    ko: "판단에 가장 중요한 3~4개 숫자부터 확인",
+    es: "Empieza por los 3 o 4 números que más cambian la decisión",
+    fr: "Commencez par les 3 à 4 chiffres qui changent vraiment la décision",
+    de: "Starte mit den 3 bis 4 Zahlen, die die Entscheidung am meisten beeinflussen",
+    pt: "Comece pelos 3 ou 4 números que realmente mudam a decisão",
+    ru: "Сначала посмотрите на 3–4 числа, которые сильнее всего влияют на решение",
+    ar: "ابدأ بـ 3 إلى 4 أرقام هي الأكثر تأثيراً على القرار",
+    hi: "सबसे पहले उन 3 से 4 नंबरों को देखें जो फैसले पर सबसे ज्यादा असर डालते हैं।",
+  },
+  explainTitle: {
+    zh: "人话解读",
+    en: "Plain-language readout",
+    ja: "やさしい読み解き",
+    ko: "쉽게 풀어보기",
+    es: "Lectura en lenguaje simple",
+    fr: "Lecture en langage simple",
+    de: "Einfach erklärt",
+    pt: "Leitura em linguagem simples",
+    ru: "Пояснение простыми словами",
+    ar: "تفسير مبسط",
+    hi: "आसान भाषा में समझें",
+  },
+  nextTitle: {
+    zh: "算完之后，下一步更有价值",
+    en: "After the calculation, the next step matters more",
+    ja: "計算後の次の一手が大事です",
+    ko: "계산 후 다음 행동이 더 중요합니다",
+    es: "Después del cálculo, lo importante es el siguiente paso",
+    fr: "Après le calcul, l'étape suivante a plus de valeur",
+    de: "Nach der Rechnung zählt vor allem der nächste Schritt",
+    pt: "Depois do cálculo, o próximo passo vale mais",
+    ru: "После расчёта важнее всего следующий шаг",
+    ar: "بعد الحساب، الخطوة التالية أهم",
+    hi: "कैलकुलेशन के बाद अगला कदम ज्यादा अहम है",
+  },
+  comparisonBadge: {
+    zh: "对比模块",
+    en: "Compare scenarios",
+    ja: "比較シナリオ",
+    ko: "비교 시나리오",
+    es: "Comparar escenarios",
+    fr: "Comparer des scénarios",
+    de: "Szenarien vergleichen",
+    pt: "Comparar cenários",
+    ru: "Сравнение сценариев",
+    ar: "مقارنة السيناريوهات",
+    hi: "परिस्थिति तुलना",
+  },
+  decisionBadge: {
+    zh: "决策建议",
+    en: "Decision guide",
+    ja: "判断ガイド",
+    ko: "결정 가이드",
+    es: "Guía de decisión",
+    fr: "Guide de décision",
+    de: "Entscheidungshilfe",
+    pt: "Guia de decisão",
+    ru: "Подсказки для решения",
+    ar: "دليل القرار",
+    hi: "फैसला गाइड",
+  },
+  scenarioBadge: {
+    zh: "场景提醒",
+    en: "Scenario tips",
+    ja: "シーン別のヒント",
+    ko: "상황별 팁",
+    es: "Consejos por escenario",
+    fr: "Conseils par scénario",
+    de: "Szenario-Tipps",
+    pt: "Dicas por cenário",
+    ru: "Подсказки по ситуациям",
+    ar: "نصائح حسب السيناريو",
+    hi: "सिचुएशन टिप्स",
+  },
+  faqBadge: {
+    zh: "常见问题",
+    en: "FAQ",
+    ja: "よくある質問",
+    ko: "자주 묻는 질문",
+    es: "Preguntas frecuentes",
+    fr: "FAQ",
+    de: "FAQ",
+    pt: "Perguntas frequentes",
+    ru: "FAQ",
+    ar: "الأسئلة الشائعة",
+    hi: "अक्सर पूछे जाने वाले सवाल",
+  },
+  faqTitle: {
+    zh: "围绕真实搜索问题，快速把关键点讲清楚",
+    en: "Answer the real search questions users ask",
+    ja: "実際によく検索される疑問に絞って回答",
+    ko: "실제 검색 질문에 맞춰 핵심만 답변",
+    es: "Responde a las preguntas reales que la gente busca",
+    fr: "Répondez aux vraies questions recherchées par les utilisateurs",
+    de: "Beantworte die Fragen, nach denen Nutzer wirklich suchen",
+    pt: "Responda às perguntas reais que as pessoas pesquisam",
+    ru: "Ответы на реальные вопросы, которые люди ищут в поиске",
+    ar: "إجابات مركزة على الأسئلة التي يبحث عنها المستخدم فعلاً",
+    hi: "वही सवाल जिनके जवाब लोग सच में सर्च करते हैं",
+  },
+  relatedBadge: {
+    zh: "相关推荐",
+    en: "Related tools",
+    ja: "関連ツール",
+    ko: "관련 도구",
+    es: "Herramientas relacionadas",
+    fr: "Outils associés",
+    de: "Verwandte Tools",
+    pt: "Ferramentas relacionadas",
+    ru: "Похожие инструменты",
+    ar: "أدوات مرتبطة",
+    hi: "संबंधित टूल",
+  },
+  relatedTitle: {
+    zh: "把当前判断继续往下算，站内跳转会更顺",
+    en: "Keep the decision moving with the next tool inside the site",
+    ja: "次に見るべきツールまでそのままつなげる",
+    ko: "다음 판단까지 이어지는 관련 도구",
+    es: "Sigue la decisión con la siguiente herramienta dentro del sitio",
+    fr: "Poursuivez la décision avec l'outil suivant du site",
+    de: "Führe die Entscheidung mit dem nächsten Tool auf der Seite weiter",
+    pt: "Continue a decisão com a próxima ferramenta dentro do site",
+    ru: "Продолжите решение через следующий инструмент на сайте",
+    ar: "واصل القرار عبر الأداة التالية داخل الموقع",
+    hi: "अगले सही टूल तक यहीं से बढ़ें",
+  },
+  copyLink: {
+    zh: "复制当前参数链接",
+    en: "Copy this setup link",
+    ja: "現在の条件リンクをコピー",
+    ko: "현재 설정 링크 복사",
+    es: "Copiar enlace con estos datos",
+    fr: "Copier le lien avec ces paramètres",
+    de: "Link mit diesen Werten kopieren",
+    pt: "Copiar link com estes parâmetros",
+    ru: "Скопировать ссылку с текущими параметрами",
+    ar: "نسخ رابط الإعدادات الحالية",
+    hi: "मौजूदा सेटअप लिंक कॉपी करें",
+  },
+  resetInputs: {
+    zh: "恢复默认参数",
+    en: "Reset default inputs",
+    ja: "初期設定に戻す",
+    ko: "기본값으로 되돌리기",
+    es: "Restablecer valores",
+    fr: "Réinitialiser les valeurs",
+    de: "Standardwerte wiederherstellen",
+    pt: "Restaurar valores padrão",
+    ru: "Вернуть значения по умолчанию",
+    ar: "استعادة القيم الافتراضية",
+    hi: "डिफॉल्ट इनपुट पर लौटें",
+  },
+  viewCompare: {
+    zh: "查看对比",
+    en: "View comparisons",
+    ja: "比較を見る",
+    ko: "비교 보기",
+    es: "Ver comparaciones",
+    fr: "Voir les comparaisons",
+    de: "Vergleiche ansehen",
+    pt: "Ver comparações",
+    ru: "Посмотреть сравнения",
+    ar: "عرض المقارنات",
+    hi: "तुलना देखें",
+  },
+  copied: {
+    zh: "链接已复制，可直接收藏或发送",
+    en: "Link copied. You can save or share it now.",
+    ja: "リンクをコピーしました。保存や共有に使えます。",
+    ko: "링크를 복사했습니다. 저장하거나 공유할 수 있습니다.",
+    es: "Enlace copiado. Ya puedes guardarlo o compartirlo.",
+    fr: "Lien copié. Vous pouvez maintenant l'enregistrer ou le partager.",
+    de: "Link kopiert. Du kannst ihn jetzt speichern oder teilen.",
+    pt: "Link copiado. Agora você pode salvar ou compartilhar.",
+    ru: "Ссылка скопирована. Теперь её можно сохранить или отправить.",
+    ar: "تم نسخ الرابط. يمكنك الآن حفظه أو مشاركته.",
+    hi: "लिंक कॉपी हो गया है। अब आप इसे सेव या शेयर कर सकते हैं।",
+  },
+  summarySticky: {
+    zh: "关键结果",
+    en: "Key results",
+    ja: "主要結果",
+    ko: "핵심 결과",
+    es: "Resultados clave",
+    fr: "Résultats clés",
+    de: "Wichtige Ergebnisse",
+    pt: "Resultados principais",
+    ru: "Главные результаты",
+    ar: "النتائج الأساسية",
+    hi: "मुख्य रिजल्ट",
+  },
+};
+
+function tx(bucket) {
+  return localizedPairText(bucket);
+}
+
 const CALCULATOR_TERM_TRANSLATIONS = {
   ja: {
     "Combination Loan": "組み合わせローン",
@@ -267,6 +534,7 @@ function localizedSeoDescription(pageTitle, pageSubtitle, quickItems) {
   };
   const tailMap = {
     zh: `支持在线测算、结果对比、图表说明与常见问题查看。`,
+    en: `Supports online calculation, result comparison, charts, and FAQ answers on one page.`,
     ja: `オンライン試算、結果比較、グラフ確認、${labels.faq}に対応しています。`,
     ko: `온라인 계산, 결과 비교, 차트 확인, ${labels.faq}까지 한 페이지에서 제공합니다.`,
     es: `Permite calcular online, comparar resultados, revisar gráficos y consultar ${labels.faq}.`,
@@ -511,7 +779,7 @@ const calculatorConfigs = {
         kpis: [
           [tPair("月供", "Monthly Payment"), money(payment)],
           [tPair("总利息", "Total Interest"), money(interest)],
-          [tPair("总还款", "Total Repayment"), money(total)],
+          [tPair("总还款（含本金+利息）", "Total Repayment (Principal + Interest)"), money(total)],
           [tPair("利息占比", "Interest Share"), pct((interest / total) * 100)],
         ],
         note: tPair("贷款不是看能不能贷下来，而是先看每个月要不要扛得住。", "A good loan decision starts with monthly affordability, not just approval."),
@@ -770,7 +1038,7 @@ function commonLoanLike(values, payment, total, note) {
   const principal = values.principal;
   const interest = total - principal;
   return {
-    kpis: [[tPair("月供", "Monthly Payment"), money(payment)], [tPair("总利息", "Total Interest"), money(interest)], [tPair("总还款", "Total Repayment"), money(total)], [tPair("利息占比", "Interest Share"), pct((interest / total) * 100)]],
+    kpis: [[tPair("月供", "Monthly Payment"), money(payment)], [tPair("总利息", "Total Interest"), money(interest)], [tPair("总还款（含本金+利息）", "Total Repayment (Principal + Interest)"), money(total)], [tPair("利息占比", "Interest Share"), pct((interest / total) * 100)]],
     note,
     charts: [
       { title: tPair("累计还款走势", "Cumulative repayment"), desc: tPair("长期贷款最重要的是看总成本而不是只看首月。", "Long loans should be judged by total cost, not just the first month."), legends: [tPair("累计还款", "Cumulative repayment"), tPair("累计利息", "Cumulative interest")], series: [createSeries(total, values.years), createSeries(interest, values.years)] },
@@ -784,7 +1052,7 @@ function commonLoanLike(values, payment, total, note) {
       rows: [
         [tPair("月供", "Monthly Payment"), money(payment), tPair("决定每个月的现金流压力", "Defines monthly cash pressure")],
         [tPair("总利息", "Total Interest"), money(interest), tPair("衡量长期成本高不高", "Measures long-run borrowing cost")],
-        [tPair("总还款", "Total Repayment"), money(total), tPair("适合和总收入、储蓄目标对照", "Useful against income and savings goals")],
+        [tPair("总还款（含本金+利息）", "Total Repayment (Principal + Interest)"), money(total), tPair("适合和总收入、储蓄目标对照", "Useful against income and savings goals")],
       ],
     },
     article: {
@@ -846,11 +1114,11 @@ calculatorConfigs.deposit = {
     const total = values.principal * (1 + r) ** n + (r === 0 ? values["monthly-add"] * n : values["monthly-add"] * (((1 + r) ** n - 1) / r) * (1 + r));
     const contribution = values.principal + values["monthly-add"] * n;
     return {
-      kpis: [[tPair("本息合计", "Future Value"), money(total)], [tPair("累计投入", "Total Contribution"), money(contribution)], [tPair("累计利息", "Interest Earned"), money(total - contribution)], [tPair("利息占比", "Interest Share"), pct(((total - contribution) / Math.max(total, 1)) * 100)]],
+      kpis: [[tPair("本息合计（到期）", "Future Value at Maturity"), money(total)], [tPair("累计投入", "Total Contribution"), money(contribution)], [tPair("累计利息", "Interest Earned"), money(total - contribution)], [tPair("利息占比", "Interest Share"), pct(((total - contribution) / Math.max(total, 1)) * 100)]],
       note: tPair("稳健储蓄的意义，不在于追求刺激，而在于为家庭现金流和目标资金打好底盘。", "Steady saving is not about excitement. It is about building a reliable financial base for future goals."),
       charts: [{ title: tPair("本金与利息累积趋势", "Principal and interest accumulation"), desc: tPair("观察时间与追加储蓄带来的变化。", "See how time and recurring additions shape the result."), legends: [tPair("总金额", "Total value"), tPair("累计投入", "Contributions")], series: [createSeries(total, values.years), createSeries(contribution, values.years)] }],
       insights: [[tPair("适合什么人", "Best for"), tPair("适合保守型用户、短中期目标、家庭备用金或资金停泊场景。", "Useful for conservative savers, short-to-mid-term goals, emergency reserves, or cash parking.")], [tPair("和定投的区别", "How it differs from investing"), tPair("它强调确定性和波动更低，而不是追求更高预期收益。", "It prioritizes certainty and lower volatility over higher expected returns.")]],
-      table: { title: tPair("不同期限对比", "Comparison by term"), desc: tPair("同样的存款习惯，时间越长，利息贡献越明显。", "With the same saving pattern, longer terms make interest more noticeable."), headers: [tPair("期限", "Term"), tPair("累计投入", "Contribution"), tPair("本息合计", "Future Value")], rows: [1, 3, 5, 10].map((year) => { const months = year * 12; const totalAlt = values.principal * (1 + r) ** months + (r === 0 ? values["monthly-add"] * months : values["monthly-add"] * (((1 + r) ** months - 1) / r) * (1 + r)); return [`${year}${tPair("年", " years")}`, money(values.principal + values["monthly-add"] * months), money(totalAlt)]; }) },
+      table: { title: tPair("不同期限对比", "Comparison by term"), desc: tPair("同样的存款习惯，时间越长，利息贡献越明显。", "With the same saving pattern, longer terms make interest more noticeable."), headers: [tPair("期限", "Term"), tPair("累计投入", "Contribution"), tPair("到期本息合计", "Value at Maturity")], rows: [1, 3, 5, 10].map((year) => { const months = year * 12; const totalAlt = values.principal * (1 + r) ** months + (r === 0 ? values["monthly-add"] * months : values["monthly-add"] * (((1 + r) ** months - 1) / r) * (1 + r)); return [`${year}${tPair("年", " years")}`, money(values.principal + values["monthly-add"] * months), money(totalAlt)]; }) },
       article: { blocks: [{ title: tPair("为什么很多用户需要一个存款基准线", "Why users need a deposit baseline"), paragraphs: [tPair("在比较理财、基金、股票等产品前，很多人需要先知道：如果我只做稳健储蓄，结果会怎样？这就是存款计算器存在的价值。", "Before comparing funds, stocks, or higher-risk products, many users need to know what happens if they simply save steadily. That is the value of a deposit calculator.") ] }], faq: [[tPair("利率填实际挂牌利率吗？", "Should I use the posted deposit rate?"), tPair("可以先填银行、券商或产品当前给出的年化利率做参考，再结合实际复利规则调整。", "Start with the annualized rate offered by your bank or product, then refine it based on the actual compounding rule if needed.")]] },
     };
   },
@@ -1371,7 +1639,7 @@ calculatorConfigs["mortgage-amortized"] = {
     const total = payment * values.years * 12;
     const interest = total - values.principal;
     return {
-      kpis: [[tPair("月供", "Monthly Payment"), money(payment)], [tPair("总利息", "Total Interest"), money(interest)], [tPair("总还款", "Total Repayment"), money(total)], [tPair("利息占比", "Interest Share"), pct((interest / Math.max(total, 1)) * 100)]],
+      kpis: [[tPair("月供", "Monthly Payment"), money(payment)], [tPair("总利息", "Total Interest"), money(interest)], [tPair("总还款（含本金+利息）", "Total Repayment (Principal + Interest)"), money(total)], [tPair("利息占比", "Interest Share"), pct((interest / Math.max(total, 1)) * 100)]],
       note: tPair("等额本息的优势是月供稳定，代价是前期利息占比更高。", "Level-payment mortgages feel predictable, but more of the early payment goes to interest."),
       charts: [
         { title: tPair("累计还款与累计利息", "Cumulative repayment and interest"), desc: tPair("看清时间越长，利息占用越明显。", "Longer terms make the interest burden much more visible."), legends: [tPair("累计还款", "Cumulative repayment"), tPair("累计利息", "Cumulative interest")], series: [createSeries(total, values.years), createSeries(interest, values.years)] },
@@ -1433,17 +1701,18 @@ calculatorConfigs["rent-vs-buy"] = {
     const mortgagePayment = monthlyPayment(loanAmount, values["mortgage-rate"], 30);
     const totalRent = values["monthly-rent"] * values.years * 12;
     const totalMortgagePaid = mortgagePayment * values.years * 12;
+    const totalBuyCashOutflow = totalMortgagePaid + downPayment;
     const homeValue = values["home-price"] * (1 + values["home-growth"] / 100) ** values.years;
     const buyNetPosition = homeValue - loanAmount + (downPayment - totalMortgagePaid * 0.2);
     return {
-      kpis: [[tPair("累计租房支出", "Total Rent Paid"), money(totalRent)], [tPair("累计房贷支出", "Mortgage Paid"), money(totalMortgagePaid)], [tPair("预计房屋价值", "Estimated Home Value"), money(homeValue)], [tPair("首付金额", "Down Payment"), money(downPayment)]],
-      note: tPair("租还是买，关键不是一句“买房更值”，而是不同阶段现金流、灵活性和资产沉淀谁更重要。", "The real rent-versus-buy decision is about cash flow, flexibility, and asset buildup priorities at this stage of life."),
+      kpis: [[tPair("累计租房支出", "Total Rent Paid"), money(totalRent)], [tPair("买房总现金流（含首付）", "Total Buying Cash Outflow (Including Down Payment)"), money(totalBuyCashOutflow)], [tPair("累计月供支出（不含首付）", "Total Mortgage Payments (Excluding Down Payment)"), money(totalMortgagePaid)], [tPair("预计房屋价值", "Estimated Home Value"), money(homeValue)]],
+      note: tPair("页面现在同时给你两种买房口径：一是“累计月供支出（不含首付）”，二是“买房总现金流（含首付）”。这样你不用自己再把首付加回去。", "This page now shows both buying views: financed mortgage payments only, and total buying cash outflow including the down payment, so you do not have to add the down payment back manually."),
       charts: [
-        { title: tPair("租房支出 vs 买房支出", "Rent spend vs. buying spend"), desc: tPair("比较同一段时间内两种路径的现金流占用。", "Compare the cash outflow of both choices over the same period."), legends: [tPair("租房", "Renting"), tPair("买房", "Buying")], series: [createSeries(totalRent, values.years), createSeries(totalMortgagePaid + downPayment, values.years)] },
+        { title: tPair("租房支出 vs 买房支出", "Rent spend vs. buying spend"), desc: tPair("比较同一段时间内两种路径的现金流占用。", "Compare the cash outflow of both choices over the same period."), legends: [tPair("租房", "Renting"), tPair("买房（含首付）", "Buying (including down payment)")], series: [createSeries(totalRent, values.years), createSeries(totalBuyCashOutflow, values.years)] },
         { title: tPair("资产沉淀变化", "Asset position path"), desc: tPair("看买房后可能形成的资产积累。", "See the potential asset accumulation created by home ownership."), legends: [tPair("房屋价值", "Home value"), tPair("净沉淀估算", "Estimated net position")], series: [createSeries(homeValue, values.years), createSeries(Math.max(buyNetPosition, 0), values.years)] },
       ],
       insights: createSimpleInsights("它能把“租更轻松”与“买更像长期资产”同时量化出来。", "It quantifies both the flexibility of renting and the asset-building angle of buying.", "买房前用户往往会反复改租金、首付和房价涨幅，是很典型的高留存工具。", "Before buying, users repeatedly change rent, down payment, and appreciation assumptions, which makes this a naturally sticky tool."),
-      table: { title: tPair("两种路径速览", "Quick path comparison"), desc: tPair("把讨论里最常出现的四个数字直接列出来。", "Put the four most-discussed numbers into one table."), headers: [tPair("项目", "Item"), tPair("租房路径", "Renting"), tPair("买房路径", "Buying")], rows: [[tPair("月度压力", "Monthly pressure"), money(values["monthly-rent"]), money(mortgagePayment)], [tPair("前期现金支出", "Upfront cash"), money(0), money(downPayment)], [tPair("比较期总现金流", "Cash outflow in the period"), money(totalRent), money(totalMortgagePaid + downPayment)], [tPair("期末资产位置", "End-of-period asset position"), tPair("无房产沉淀", "No housing asset"), money(Math.max(buyNetPosition, 0))]] },
+      table: { title: tPair("两种路径速览", "Quick path comparison"), desc: tPair("把讨论里最常出现的关键数字直接列出来。", "Put the most discussed decision numbers into one table."), headers: [tPair("项目", "Item"), tPair("租房路径", "Renting"), tPair("买房路径", "Buying")], rows: [[tPair("月度压力", "Monthly pressure"), money(values["monthly-rent"]), money(mortgagePayment)], [tPair("前期现金支出", "Upfront cash"), money(0), money(downPayment)], [tPair("累计月供支出（不含首付）", "Mortgage Payments (Excluding Down Payment)"), money(totalRent), money(totalMortgagePaid)], [tPair("比较期总现金流（含首付）", "Cash Outflow in Period (Including Down Payment)"), money(totalRent), money(totalBuyCashOutflow)], [tPair("期末资产位置", "End-of-period asset position"), tPair("无房产沉淀", "No housing asset"), money(Math.max(buyNetPosition, 0))]] },
       article: createSimpleArticle("为什么租房和买房要一起算", "Why renting and buying should be compared side by side", "很多人单看月供会觉得买得起，单看租金会觉得租更省，但真正的判断需要把首付、资产沉淀和灵活性一起放进同一个模型。", "Looking only at the mortgage can make buying seem easy, and looking only at rent can make renting feel cheaper. The better decision comes from comparing down payment, asset buildup, and flexibility in one model.", ["先看前期现金支出自己能否承受。", "再看未来几年是否需要更高灵活性。", "最后比较资产沉淀是否符合你的长期计划。"], ["Check whether the upfront cash requirement is realistic.", "Then ask how much flexibility you may need over the next few years.", "Finally compare whether the asset build-up fits your longer-term plan."], "买房一定比租房划算吗？", "Is buying always better than renting?", "不一定。短期流动性和生活变动较大的阶段，租房往往更灵活。", "No. In periods with high uncertainty or expected life changes, renting can be the more flexible choice."),
     };
   },
@@ -1472,7 +1741,7 @@ calculatorConfigs["mortgage-rate-change"] = {
         { title: tPair("旧利率 vs 新利率", "Old rate vs. new rate"), desc: tPair("把利率调整前后的月供变化直接画出来。", "Shows the monthly-payment difference before and after the rate change."), legends: [tPair("原方案", "Old plan"), tPair("新方案", "New plan")], series: [createSeries(oldPayment, values.years), createSeries(newPayment, values.years)] },
       ],
       insights: createSimpleInsights("适合在房贷重定价、提前部分还款或准备转贷时快速做判断。", "Useful when repricing a mortgage, prepaying part of the balance, or exploring refinancing.", "只要利率环境变化，用户就会回来重算，是很典型的高频复访工具。", "Whenever the rate environment changes, people come back to recalculate, which makes it a naturally recurring tool."),
-      table: { title: tPair("利率变化结果表", "Rate-change summary"), desc: tPair("最关键的月供和利息变化放在同一张表里。", "The most important payment and interest changes in one place."), headers: [tPair("指标", "Metric"), tPair("旧利率", "Old Rate"), tPair("新利率", "New Rate")], rows: [[tPair("月供", "Monthly payment"), money(oldPayment), money(newPayment)], [tPair("总还款", "Total repayment"), money(oldTotal), money(newTotal)], [tPair("总利息", "Total interest"), money(oldTotal - values.principal), money(newTotal - values.principal)]] },
+      table: { title: tPair("利率变化结果表", "Rate-change summary"), desc: tPair("最关键的月供和利息变化放在同一张表里。", "The most important payment and interest changes in one place."), headers: [tPair("指标", "Metric"), tPair("旧利率", "Old Rate"), tPair("新利率", "New Rate")], rows: [[tPair("月供", "Monthly payment"), money(oldPayment), money(newPayment)], [tPair("总还款（含本金+利息）", "Total repayment (principal + interest)"), money(oldTotal), money(newTotal)], [tPair("总利息", "Total interest"), money(oldTotal - values.principal), money(newTotal - values.principal)]] },
       article: createSimpleArticle("为什么利率变化值得单独算一次", "Why rate changes deserve a separate calculator", "哪怕只调整了零点几的利率，在长达十几二十年的房贷里，也可能对应可观的月供差异和总利息变化。", "Even a small rate adjustment can lead to meaningful monthly-payment and total-interest differences over a long mortgage.", ["先看每月能多出或少掉多少现金流。", "再看整个剩余贷款期会省下或多付多少利息。", "如果变化很大，再考虑是否要同步调整理财和还款计划。"], ["Check how much monthly cash flow changes first.", "Then compare the interest difference over the remaining term.", "If the impact is large, consider adjusting the broader repayment or investing plan as well."], "只看月供变化就够了吗？", "Is the payment change alone enough?", "不够。月供决定当下压力，总利息变化决定长期成本。", "No. The monthly payment shapes current pressure, while the total interest difference determines the long-run cost."),
     };
   },
@@ -1527,7 +1796,7 @@ calculatorConfigs.irr = {
     const irr = solveIrr(cashflows);
     const totalIn = cashflows.slice(1).reduce((sum, value) => sum + value, 0);
     return {
-      kpis: [[tPair("IRR", "IRR"), pct(irr)], [tPair("初始投入", "Initial Investment"), money(values["initial-outflow"])], [tPair("累计回收现金流", "Total Inflows"), money(totalIn)], [tPair("净收益", "Net Gain"), money(totalIn - values["initial-outflow"])]],
+      kpis: [[tPair("IRR", "IRR"), pct(irr)], [tPair("初始投入", "Initial Investment"), money(values["initial-outflow"])], [tPair("累计回收现金流", "Total Cash In"), money(totalIn)], [tPair("净收益（回款-投入）", "Net Gain (Cash In - Investment)"), money(totalIn - values["initial-outflow"])]],
       note: tPair("IRR 的意义，在于把一串年份不同的现金流折成一个统一收益率，方便和别的项目放在一起比。", "IRR matters because it compresses uneven annual cash flows into one comparable return figure."),
       charts: [
         { title: tPair("现金流回收路径", "Cash-flow recovery path"), desc: tPair("看清回收速度和回本节奏。", "See how quickly the project recovers the upfront investment."), legends: [tPair("累计回收", "Cumulative inflows"), tPair("初始投入", "Initial outflow")], series: [cashflows.slice(1).reduce((arr, value, index) => [...arr, (arr[index - 1] || 0) + value], []), Array.from({ length: 4 }, () => values["initial-outflow"])] },
@@ -1559,7 +1828,7 @@ calculatorConfigs.xirr = {
     const totalGain = values["dividend-amount"] + values["exit-amount"] - values["invest-amount"];
     const totalDays = Math.max(daysBetween(values["invest-date"], values["exit-date"]), 1);
     return {
-      kpis: [[tPair("XIRR", "XIRR"), pct(xirr)], [tPair("持有天数", "Holding Days"), pluralize(totalDays, "天", "day", "days")], [tPair("累计回款", "Total Cash In"), money(values["dividend-amount"] + values["exit-amount"])], [tPair("净收益", "Net Gain"), money(totalGain)]],
+      kpis: [[tPair("XIRR", "XIRR"), pct(xirr)], [tPair("持有天数", "Holding Days"), pluralize(totalDays, "天", "day", "days")], [tPair("累计回款", "Total Cash In"), money(values["dividend-amount"] + values["exit-amount"])], [tPair("净收益（回款-投入）", "Net Gain (Cash In - Investment)"), money(totalGain)]],
       note: tPair("当投资不是整整一年、现金流也不是整齐地按年发生时，XIRR 会比普通年化更贴近真实结果。", "When cash flows do not happen neatly on annual boundaries, XIRR gives a truer annualized result than a simple CAGR."),
       charts: [
         { title: tPair("投资时间线", "Investment timeline"), desc: tPair("把买入、回款和退出放在一条真实时间线上。", "Put the buy, interim cash-in, and exit onto a real timeline."), legends: [tPair("投入/回款", "Cash flows"), tPair("累计回款", "Cumulative cash in")], valueType: "currency", labels: [tPair("买入", "Invest"), tPair("中途回款", "Interim"), tPair("退出", "Exit")], series: [[values["invest-amount"], values["dividend-amount"], values["exit-amount"]], [0, values["dividend-amount"], values["dividend-amount"] + values["exit-amount"]]] },
@@ -1589,7 +1858,7 @@ calculatorConfigs["etf-return"] = {
     const total = futureValueMonthly(values.initial, values.monthly, netReturn, months);
     const contribution = values.initial + values.monthly * months;
     return {
-      kpis: [[tPair("预计终值", "Projected Value"), money(total)], [tPair("累计投入", "Total Contribution"), money(contribution)], [tPair("净收益", "Net Gain"), money(total - contribution)], [tPair("净年化假设", "Net Return Assumption"), pct(netReturn)]],
+      kpis: [[tPair("预计终值", "Projected Value"), money(total)], [tPair("累计投入", "Total Contribution"), money(contribution)], [tPair("净收益（终值-投入）", "Net Gain (Value - Contributions)"), money(total - contribution)], [tPair("净年化假设", "Net Return Assumption"), pct(netReturn)]],
       note: tPair("长期 ETF 收益看起来很平滑，但真正拉开差距的常常是时间和费率这两个变量。", "Long-term ETF outcomes often come down less to drama and more to time and fee drag."),
       charts: [
         { title: tPair("投入与净值增长", "Contributions versus portfolio value"), desc: tPair("看清费率扣除后，净值路径是怎样形成的。", "See how the portfolio grows after fees reduce the net return."), legends: [tPair("累计投入", "Contributions"), tPair("总资产", "Portfolio value")], series: [createSeries(contribution, values.years), createSeries(total, values.years)] },
@@ -1870,11 +2139,11 @@ calculatorConfigs["stamp-duty"] = {
   compute(values) {
     const tax = values["transaction-amount"] * values["duty-rate"] / 100;
     return {
-      kpis: [[tPair("印花税额", "Stamp Duty"), money(tax)], [tPair("交易金额", "Transaction Amount"), money(values["transaction-amount"])], [tPair("税率", "Duty Rate"), pct(values["duty-rate"])], [tPair("税后成本", "Cost After Duty"), money(values["transaction-amount"] + tax)]],
+      kpis: [[tPair("印花税额", "Stamp Duty"), money(tax)], [tPair("交易金额", "Transaction Amount"), money(values["transaction-amount"])], [tPair("税率", "Duty Rate"), pct(values["duty-rate"])], [tPair("含印花税总成本", "Total Cost Including Duty"), money(values["transaction-amount"] + tax)]],
       note: tPair("税率很小不代表可以忽略，频繁交易或大额合同里，印花税会直接影响最终成本。", "A small rate does not mean a small impact. On large contracts or frequent trading, stamp duty changes the final cost."),
       charts: [{ title: tPair("交易金额与税额", "Transaction amount and duty"), desc: tPair("金额越大，税额越值得提前算清楚。", "The larger the deal, the more important it is to estimate the duty clearly."), legends: [tPair("交易金额", "Transaction amount"), tPair("印花税", "Stamp duty")], series: [[values["transaction-amount"], values["transaction-amount"], values["transaction-amount"], values["transaction-amount"]], [tax, tax, tax, tax]], labels: createQuarterLabels(4) }],
       insights: createSimpleInsights("适合合同签署、股权交易和大额资产转让前做税费预估。", "Useful before signing contracts, trading equity, or transferring large assets.", "用户通常会在交易金额和税率变化时回来再算一次。", "People usually revisit it when the deal size or the applicable rate changes."),
-      table: { title: tPair("税费结果表", "Duty summary"), desc: tPair("最常用的金额信息放在一起。", "The most frequently used amounts in one view."), headers: [tPair("项目", "Item"), tPair("金额", "Amount"), tPair("说明", "Meaning")], rows: [[tPair("交易金额", "Transaction amount"), money(values["transaction-amount"]), tPair("税费计算基础", "The base amount for the duty")], [tPair("印花税", "Stamp duty"), money(tax), tPair("按税率估算得出", "Estimated from the given rate")], [tPair("税后总成本", "Total cost after duty"), money(values["transaction-amount"] + tax), tPair("实际支付时更接近的成本", "Closer to the final amount payable")]] },
+      table: { title: tPair("税费结果表", "Duty summary"), desc: tPair("最常用的金额信息放在一起。", "The most frequently used amounts in one view."), headers: [tPair("项目", "Item"), tPair("金额", "Amount"), tPair("说明", "Meaning")], rows: [[tPair("交易金额", "Transaction amount"), money(values["transaction-amount"]), tPair("税费计算基础", "The base amount for the duty")], [tPair("印花税", "Stamp duty"), money(tax), tPair("按税率估算得出", "Estimated from the given rate")], [tPair("含印花税总成本", "Total cost including duty"), money(values["transaction-amount"] + tax), tPair("实际支付时更接近的总支出", "Closer to the final amount payable")]] },
       article: createSimpleArticle("为什么印花税也值得提前算", "Why stamp duty should be estimated early", "税率看起来小，但在大额交易里，税费常常会成为预算里必须单独考虑的一部分。", "The rate can look small, but on larger transactions it often becomes a meaningful part of the budget.", ["先确认适用税率。", "再确认计税基础金额。", "最后把税后总成本一起考虑。"], ["Confirm the applicable rate first.", "Then confirm the taxable transaction amount.", "Finally include the duty in the full transaction cost."], "印花税一定由买方承担吗？", "Is stamp duty always paid by the buyer?", "不一定，具体要看当地规则和交易安排。", "Not always. That depends on local rules and the structure of the transaction."),
     };
   },
@@ -1922,11 +2191,11 @@ calculatorConfigs["credit-card-interest"] = {
     const futureBalance = values.balance * (1 + monthlyRate) ** values.months;
     const interest = futureBalance - values.balance;
     return {
-      kpis: [[tPair("滚动后欠款", "Balance After Carrying"), money(futureBalance)], [tPair("累计利息", "Interest Charged"), money(interest)], [tPair("月利率", "Monthly Rate"), pct(values["annual-rate"] / 12)], [tPair("原始欠款", "Starting Balance"), money(values.balance)]],
+      kpis: [[tPair("滚动后欠款（含原欠款+利息）", "Balance After Carrying (Balance + Interest)"), money(futureBalance)], [tPair("累计利息", "Interest Charged"), money(interest)], [tPair("月利率", "Monthly Rate"), pct(values["annual-rate"] / 12)], [tPair("原始欠款", "Starting Balance"), money(values.balance)]],
       note: tPair("信用卡利息最可怕的地方，不是高，而是它很容易在“先拖一拖”里慢慢滚大。", "The danger of credit-card interest is not just that it is high, but that it quietly grows while people keep saying they will handle it later."),
       charts: [{ title: tPair("欠款滚动变化", "Balance growth over time"), desc: tPair("延迟还款会怎样，图上会看得很直观。", "The chart makes the cost of delaying repayment very visible."), legends: [tPair("欠款余额", "Balance"), tPair("原始欠款", "Starting balance")], series: [Array.from({ length: values.months }, (_, index) => values.balance * (1 + monthlyRate) ** (index + 1)), Array.from({ length: values.months }, () => values.balance)] }],
       insights: createSimpleInsights("它最适合提醒用户，信用卡滚动利息会怎样吞掉未来几个月的现金流。", "It is especially useful as a wake-up call for how revolving interest can consume future cash flow.", "用户常常会反复改月数和利率，评估拖延还款到底有多贵。", "Users often change the months and rate assumptions to see how expensive delay really becomes."),
-      table: { title: tPair("时间越长成本越高", "Longer carry, higher cost"), desc: tPair("拖欠时间和利息成本的关系非常直接。", "The relationship between carried time and interest cost is very direct."), headers: [tPair("滚动月数", "Months"), tPair("滚动后欠款", "Ending Balance"), tPair("累计利息", "Interest")], rows: [3, 6, 12].map((months) => { const balance = values.balance * (1 + monthlyRate) ** months; return [`${months}`, money(balance), money(balance - values.balance)]; }) },
+      table: { title: tPair("时间越长成本越高", "Longer carry, higher cost"), desc: tPair("拖欠时间和利息成本的关系非常直接。", "The relationship between carried time and interest cost is very direct."), headers: [tPair("滚动月数", "Months"), tPair("滚动后欠款（含原欠款+利息）", "Ending balance (balance + interest)"), tPair("累计利息", "Interest")], rows: [3, 6, 12].map((months) => { const balance = values.balance * (1 + monthlyRate) ** months; return [`${months}`, money(balance), money(balance - values.balance)]; }) },
       article: createSimpleArticle("为什么信用卡利息需要尽早算清楚", "Why credit-card interest should be calculated early", "信用卡的痛点不在于今天多付一点，而在于它很容易把未来几个月的预算空间提前吃掉。", "The real pain of credit-card interest is not paying a little more today. It is how quickly it consumes the budget room of the next several months.", ["先看 3 个月和 12 个月会差多少。", "如果利息已经明显偏高，优先加快偿还。", "必要时和最低还款策略一起比较。"], ["Compare the 3-month and 12-month outcomes first.", "If the interest burden is already high, prioritize faster repayment.", "Compare it alongside the minimum-payment scenario if needed."], "只还最低还款会怎样？", "What happens if I only make the minimum payment?", "通常会显著拉长还款时间，并带来更高总利息。", "It usually lengthens the payoff period significantly and increases the total interest cost."),
     };
   },
@@ -1955,12 +2224,58 @@ calculatorConfigs["credit-card-minimum"] = {
       months += 1;
     }
     return {
-      kpis: [[tPair("预计还清月数", "Months to Pay Off"), `${months}`], [tPair("累计利息", "Total Interest"), money(totalInterest)], [tPair("最低还款额", "Minimum Payment"), money(Math.max(values.balance * values["minimum-rate"] / 100, 10))], [tPair("起始欠款", "Starting Balance"), money(values.balance)]],
+      kpis: [[tPair("预计还清月数", "Months to Pay Off"), `${months}`], [tPair("累计利息", "Total Interest"), money(totalInterest)], [tPair("首月最低还款额", "Minimum Payment in Month 1"), money(Math.max(values.balance * values["minimum-rate"] / 100, 10))], [tPair("起始欠款", "Starting Balance"), money(values.balance)]],
       note: tPair("最低还款能缓一口气，但也往往意味着更长时间被高利率绑定。", "Minimum payments can buy short-term breathing room, but they often mean being tied to high-interest debt for much longer."),
       charts: [{ title: tPair("最低还款的拖延成本", "The delay cost of minimum payments"), desc: tPair("时间拉长后，利息会逐渐吃掉原本可用的结余。", "As time extends, interest gradually consumes what could have been free cash flow."), legends: [tPair("还款月数", "Months to payoff"), tPair("累计利息", "Total interest")], valueType: "number", series: [[months, months, months, months], [totalInterest / Math.max(values.balance, 1), totalInterest / Math.max(values.balance, 1), totalInterest / Math.max(values.balance, 1), totalInterest / Math.max(values.balance, 1)]], labels: createQuarterLabels(4) }],
       insights: createSimpleInsights("最适合让用户直观看到“先缓一缓”到底会贵多少。", "Best used to show how expensive “I will just pay the minimum for now” can become.", "用户会不断调整最低还款比例和余额，去比较哪种处理方式更能减压。", "Users often change the balance and minimum rate to compare which repayment approach relieves pressure better."),
       table: { title: tPair("关键结果表", "Key results"), desc: tPair("把时间和利息两个核心成本直接列出来。", "Puts the time cost and interest cost into one clear view."), headers: [tPair("指标", "Metric"), tPair("结果", "Result"), tPair("说明", "Meaning")], rows: [[tPair("预计月数", "Estimated months"), `${months}`, tPair("代表会被高利率拖多久", "How long the debt may keep dragging on")], [tPair("累计利息", "Total interest"), money(totalInterest), tPair("最低还款的真正代价", "The real cost of minimum payments")], [tPair("起始最低还款", "Initial minimum"), money(Math.max(values.balance * values["minimum-rate"] / 100, 10)), tPair("第一个月最少要还多少", "The lowest payment due in month one")]] },
       article: createSimpleArticle("为什么最低还款更适合当应急方案", "Why minimum payments are better treated as an emergency option", "最低还款的价值在于帮你短期腾出现金流，不在于它是划算的长期策略。", "The value of minimum payments is short-term cash-flow relief, not long-term efficiency.", ["如果只是短期压力，可以用来缓冲。", "一旦压力过去，应尽快提高还款额。", "优先避免长期滚动。"], ["If the pressure is temporary, minimum payments can act as a short buffer.", "Once the pressure passes, raise the payment as soon as possible.", "Prioritize avoiding long-term revolving debt."], "最低还款会影响信用吗？", "Do minimum payments affect credit?", "具体影响取决于规则和记录，但长期高负债通常不会是理想状态。", "The exact impact depends on reporting rules, but persistently high revolving debt is rarely ideal."),
+    };
+  },
+};
+
+calculatorConfigs["credit-card-installment"] = {
+  name: { zh: "信用卡分期计算器", en: "Credit Card Installment Calculator" },
+  category: { zh: "生活 / 消费", en: "Consumer" },
+  subtitle: { zh: "估算信用卡分期后的每月还款、总手续费和分期总成本，判断分期到底值不值。", en: "Estimate monthly payment, total fees, and full installment cost to judge whether a credit-card installment is worth it." },
+  quick: { zh: ["适合刷卡后比较分期成本", "看清月供和总手续费", "适合和最低还款、现金流工具一起判断"], en: ["Useful after a purchase to compare installment cost", "Shows monthly payment and total fees clearly", "Pairs well with minimum-payment and cash-flow tools"] },
+  features: [
+    { id: "purchase-amount", type: "number", label: { zh: "分期金额", en: "Purchase Amount" }, default: () => 12000 },
+    { id: "months", type: "number", label: { zh: "分期期数（月）", en: "Installment Months" }, default: () => 12 },
+    { id: "monthly-fee-rate", type: "number", step: "0.01", label: { zh: "每月手续费率 (%)", en: "Monthly Fee Rate (%)" }, default: () => 0.6 },
+    { id: "upfront-fee", type: "number", label: { zh: "一次性手续费", en: "Upfront Fee" }, default: () => 0 },
+  ],
+  compute(values) {
+    const monthlyPrincipal = values["purchase-amount"] / Math.max(values.months, 1);
+    const monthlyFee = values["purchase-amount"] * values["monthly-fee-rate"] / 100;
+    const monthlyPayment = monthlyPrincipal + monthlyFee;
+    const totalFees = monthlyFee * values.months + values["upfront-fee"];
+    const totalRepayment = values["purchase-amount"] + totalFees;
+    const effectiveCostRatio = totalFees / Math.max(values["purchase-amount"], 1) * 100;
+    return {
+      kpis: [
+        [tPair("每月还款", "Monthly Installment"), money(monthlyPayment)],
+        [tPair("总手续费", "Total Fees"), money(totalFees)],
+        [tPair("分期总支付（含本金+手续费）", "Total Payment (Principal + Fees)"), money(totalRepayment)],
+        [tPair("手续费占比", "Fee Ratio"), pct(effectiveCostRatio)],
+      ],
+      note: tPair("分期最容易让人误判的地方，是月供看起来不高，但总手续费可能已经明显抬高了真实消费成本。", "Installments are easy to underestimate because the monthly bill feels manageable while the total fee quietly raises the real cost of spending."),
+      charts: [
+        { title: tPair("分期月供拆解", "Monthly installment breakdown"), desc: tPair("把本金和平摊手续费拆开，更容易看出每个月到底在还什么。", "Separates principal and installment fees so you can see what makes up the monthly payment."), legends: [tPair("每月本金", "Monthly principal"), tPair("每月手续费", "Monthly fee")], series: [Array.from({ length: values.months }, () => monthlyPrincipal), Array.from({ length: values.months }, () => monthlyFee)], labels: Array.from({ length: values.months }, (_, index) => lang() === "zh" ? `第${index + 1}期` : `M${index + 1}`) },
+        { title: tPair("不同期数下的总成本", "Total cost across installment terms"), desc: tPair("帮助判断拉长期数后，手续费会不会吃掉本来不想付出的成本。", "Shows whether a longer term makes fees meaningfully more expensive."), legends: [tPair("总支付（含本金+手续费）", "Total payment (principal + fees)"), tPair("总手续费", "Total fees")], series: [[3, 6, 12, 24].map((months) => values["purchase-amount"] + values["purchase-amount"] * values["monthly-fee-rate"] / 100 * months + values["upfront-fee"]), [3, 6, 12, 24].map((months) => values["purchase-amount"] * values["monthly-fee-rate"] / 100 * months + values["upfront-fee"])] },
+      ],
+      insights: createSimpleInsights("最适合在刷卡后比较“现在分期”与“尽快还掉”哪种更轻松也更划算。", "Best used right after a purchase to compare whether installmenting is truly easier and worth the extra cost.", "用户通常会改期数和手续费率，比较哪档月供可以承受、但又不至于把成本拉太高。", "Users usually change the months and fee rate to find a payment that feels manageable without pushing the cost too high."),
+      table: {
+        title: tPair("不同期数下的分期参考", "Installment comparison by term"),
+        desc: tPair("同样金额和手续费率下，期数越长，月供会更轻，但总成本通常更高。", "For the same purchase and fee rate, a longer term lowers the monthly bill but usually increases the total cost."),
+        headers: [tPair("期数", "Months"), tPair("每月还款", "Monthly payment"), tPair("总手续费", "Total fees"), tPair("总支付（含本金+手续费）", "Total payment (principal + fees)")],
+        rows: [3, 6, 12, 24].map((months) => {
+          const fee = values["purchase-amount"] * values["monthly-fee-rate"] / 100 * months + values["upfront-fee"];
+          const monthly = values["purchase-amount"] / months + values["purchase-amount"] * values["monthly-fee-rate"] / 100;
+          return [`${months}`, money(monthly), money(fee), money(values["purchase-amount"] + fee)];
+        }),
+      },
+      article: createSimpleArticle("为什么信用卡分期不是只看月供就够了", "Why a credit-card installment should not be judged by the monthly payment alone", "很多用户看到分期后每月只多出一点点，就会误以为成本不高。但只要期数拉长，总手续费往往就会累积到一个不能忽视的水平。", "Many users see a small monthly installment and assume the cost is modest. But once the term gets longer, total fees can rise to a level that should not be ignored.", ["先看每月还款是不是能轻松承受。", "再看总手续费会不会让整笔消费明显变贵。", "最后拿它和最低还款、直接还清做对比。"], ["Check whether the monthly installment fits your budget first.", "Then see whether the total fee makes the purchase meaningfully more expensive.", "Finally compare it with minimum payment and full repayment."], "信用卡分期一定比最低还款好吗？", "Is installment always better than minimum payment?", "通常比长期最低还款更可控，因为期数和费用更透明，但是否更划算还要看手续费和你能否尽快还清。", "It is often more predictable than carrying a balance with minimum payments because the term and fees are clearer, but whether it is cheaper still depends on the fee level and how quickly you could repay otherwise."),
     };
   },
 };
@@ -1979,11 +2294,11 @@ calculatorConfigs["credit-card-points"] = {
     const centsPerPoint = values["redeem-value"] / Math.max(values.points, 1);
     const netValue = values["redeem-value"] - values["annual-fee"];
     return {
-      kpis: [[tPair("每积分价值", "Value per Point"), money(centsPerPoint)], [tPair("积分总价值", "Total Points Value"), money(values["redeem-value"])], [tPair("扣除年费后净值", "Net Value After Fee"), money(netValue)], [tPair("年费", "Annual Fee"), money(values["annual-fee"])]],
+      kpis: [[tPair("每积分价值", "Value per Point"), money(centsPerPoint)], [tPair("积分兑换总价值", "Gross Redemption Value"), money(values["redeem-value"])], [tPair("扣除年费后净收益", "Net Reward After Annual Fee"), money(netValue)], [tPair("年费", "Annual Fee"), money(values["annual-fee"])]],
       note: tPair("积分看起来很多，不代表真的值很多。关键是最终能换回什么，以及为此付出了多少年费和消费成本。", "A huge point balance does not automatically mean high value. What matters is what you can redeem and what you paid to get there."),
       charts: [{ title: tPair("积分价值与年费", "Points value and annual fee"), desc: tPair("判断这张卡到底是在回馈你，还是主要在收你的年费。", "A quick way to see whether the card is rewarding you enough to justify its fee."), legends: [tPair("积分价值", "Points value"), tPair("年费", "Annual fee")], series: [[values["redeem-value"], values["redeem-value"], values["redeem-value"], values["redeem-value"]], [values["annual-fee"], values["annual-fee"], values["annual-fee"], values["annual-fee"]]], labels: createQuarterLabels(4) }],
       insights: createSimpleInsights("最适合拿来比较不同兑换方式到底哪种更划算。", "Best used to compare which redemption option actually gives better value.", "积分数量和兑换方案一变，用户就会回来重算。", "Whenever the points balance or redemption method changes, users return to recalculate."),
-      table: { title: tPair("价值速览", "Value snapshot"), desc: tPair("从三个角度判断积分值不值。", "Judge the reward value from three useful angles."), headers: [tPair("项目", "Item"), tPair("数值", "Value"), tPair("说明", "Meaning")], rows: [[tPair("积分总价值", "Total points value"), money(values["redeem-value"]), tPair("积分本身可换回的价值", "The gross redemption value")], [tPair("年费", "Annual fee"), money(values["annual-fee"]), tPair("持卡成本", "The cost of holding the card")], [tPair("净值", "Net value"), money(netValue), tPair("扣掉年费后更接近真实收益", "A better estimate of the real reward after fees")]] },
+      table: { title: tPair("价值速览", "Value snapshot"), desc: tPair("从三个角度判断积分值不值。", "Judge the reward value from three useful angles."), headers: [tPair("项目", "Item"), tPair("数值", "Value"), tPair("说明", "Meaning")], rows: [[tPair("积分兑换总价值", "Gross redemption value"), money(values["redeem-value"]), tPair("积分本身可换回的总价值", "The gross redemption value")], [tPair("年费", "Annual fee"), money(values["annual-fee"]), tPair("持卡成本", "The cost of holding the card")], [tPair("扣除年费后净收益", "Net reward after annual fee"), money(netValue), tPair("扣掉年费后更接近真实收益", "A better estimate of the real reward after fees")]] },
       article: createSimpleArticle("为什么积分的关键不在“多少”，而在“怎么换”", "Why the real question is not how many points you have, but how you redeem them", "很多人只追求积分数量，却忽略了不同兑换方式之间的价值差异可能非常大。", "Many people chase point totals and overlook how dramatically redemption value can vary across different options.", ["先看积分最终能换回多少钱。", "再扣掉年费和附带成本。", "最后比较这张卡值不值得继续持有。"], ["Check the real redemption value first.", "Then subtract the annual fee and related costs.", "Finally decide whether the card is still worth keeping."], "积分越多一定越好吗？", "Are more points always better?", "不一定。如果兑换比例差，积分再多也可能只是看起来热闹。", "Not necessarily. A large point balance with weak redemption value can still be underwhelming."),
     };
   },
@@ -2268,7 +2583,7 @@ const CATALOG_GROUPS = [
     titleEn: "Consumer choices and credit-card costs",
     descZh: "购物、信用卡和跨境消费前先算一下，通常比事后后悔便宜得多。",
     descEn: "Running the numbers before shopping, using a card, or spending across borders is often much cheaper than regretting it later.",
-    slugs: ["exchange-rate", "credit-card-interest", "credit-card-minimum", "credit-card-points", "discount"],
+    slugs: ["exchange-rate", "credit-card-interest", "credit-card-minimum", "credit-card-installment", "credit-card-points", "discount"],
   },
   {
     zh: "健康",
@@ -2439,62 +2754,563 @@ function formatChartValue(value, valueType) {
   return money(value);
 }
 
-function renderInsights(items) {
-  const root = document.querySelector("[data-insights]");
-  if (!root) return;
-  root.innerHTML = items.map((item) => `<div class="insight-card"><strong>${item[0]}</strong><p>${item[1]}</p></div>`).join("");
+const currentUiState = {
+  presets: [],
+  scenarios: [],
+  related: [],
+};
+
+function currentSlug() {
+  return document.querySelector("[data-calculator-form]")?.getAttribute("data-calculator-form") || "";
 }
 
-function renderTable(table) {
-  const root = document.querySelector("[data-table]");
+function familyForSlug(slug) {
+  const group = CATALOG_GROUPS.find((item) => item.slugs.includes(slug));
+  if (!group) return "utility";
+  if (group.en === "Loans / Housing") return "loan";
+  if (group.en === "Investing") return "investing";
+  if (group.en === "Savings / Cash Flow") return "cashflow";
+  if (group.en === "Tax") return "tax";
+  if (group.en === "Consumer") return "consumer";
+  if (group.en === "Health") return "health";
+  return "utility";
+}
+
+function queryValue(id) {
+  try {
+    if (!window.location?.search) return null;
+    const params = new URLSearchParams(window.location.search);
+    return params.has(id) ? params.get(id) : null;
+  } catch (error) {
+    return null;
+  }
+}
+
+function syncFormStateToUrl(config, values) {
+  try {
+    if (!window.history?.replaceState || !window.location?.href) return;
+    const url = new URL(window.location.href);
+    config.features.forEach((field) => {
+      const value = values[field.id];
+      if (value === "" || value === null || Number.isNaN(value)) url.searchParams.delete(field.id);
+      else url.searchParams.set(field.id, `${value}`);
+    });
+    window.history.replaceState({}, "", url);
+  } catch (error) {
+    // Ignore URL sync issues in restricted environments.
+  }
+}
+
+function formatFieldValue(field, value) {
+  if (field.type === "date" || field.type === "time" || field.type === "datetime-local" || field.type === "text" || field.type === "select") {
+    return `${value}`;
+  }
+  const digits = field.step && `${field.step}`.includes(".") ? `${field.step}`.split(".")[1].length : 0;
+  return num(value, digits);
+}
+
+function comparisonFieldCandidates(config) {
+  const features = config.features.filter((item) => item.type !== "date" && item.type !== "time" && item.type !== "datetime-local");
+  const match = (patterns) => features.find((item) => patterns.some((pattern) => item.id.includes(pattern)));
+  const picks = [];
+  const preferred = [
+    match(["year", "term", "age"]),
+    match(["rate", "yield", "return", "interest"]),
+    match(["income", "salary", "budget", "expense", "invest", "payment"]),
+    match(["principal", "amount", "balance", "saving", "deposit"]),
+  ].filter(Boolean);
+  preferred.forEach((item) => {
+    if (!picks.includes(item)) picks.push(item);
+  });
+  features.forEach((item) => {
+    if (!picks.includes(item)) picks.push(item);
+  });
+  return picks.slice(0, 3);
+}
+
+function comparisonValues(field, currentValue) {
+  if (field.type === "select") {
+    return field.options.slice(0, 3).map((item) => item.value);
+  }
+  const value = Number(currentValue);
+  if (!Number.isFinite(value)) return [];
+  if (field.id.includes("year") || field.id.includes("term") || field.id.includes("age")) {
+    const base = Math.max(Math.round(value), 1);
+    return [Math.max(base - 5, 1), base, base + 5];
+  }
+  if (field.id.includes("rate") || field.id.includes("yield") || field.id.includes("return") || field.id.includes("interest")) {
+    return [Math.max(value - 1, 0), value, value + 1];
+  }
+  return [value * 0.85, value, value * 1.15].map((item) => Math.max(item, 0));
+}
+
+function createComparisonSection(config, values, field) {
+  const candidates = comparisonValues(field, values[field.id])
+    .map((item) => (field.type === "select" ? item : Number(item.toFixed(field.step && `${field.step}`.includes(".") ? `${field.step}`.split(".")[1].length : 0))))
+    .filter((item, index, list) => list.findIndex((entry) => `${entry}` === `${item}`) === index);
+  if (candidates.length < 2) return null;
+  const rows = candidates.map((candidate) => {
+    const testValues = { ...values, [field.id]: candidate };
+    const alt = config.compute(testValues);
+    return [
+      formatFieldValue(field, candidate),
+      alt.kpis[0]?.[1] || "--",
+      alt.kpis[1]?.[1] || "--",
+      alt.kpis[2]?.[1] || "--",
+    ];
+  });
+  return {
+    title: tx({
+      zh: `${localizedPairText(field.label)}变化对结果的影响`,
+      en: `How ${localizedPairText(field.label)} changes the result`,
+      ja: `${localizedPairText(field.label)} を変えたときの差`,
+      ko: `${localizedPairText(field.label)} 변화에 따른 차이`,
+      es: `Cómo cambia el resultado al variar ${localizedPairText(field.label)}`,
+      fr: `Comment le résultat change si ${localizedPairText(field.label)} varie`,
+      de: `So ändert sich das Ergebnis, wenn ${localizedPairText(field.label)} angepasst wird`,
+      pt: `Como o resultado muda ao alterar ${localizedPairText(field.label)}`,
+      ru: `Как меняется результат при изменении ${localizedPairText(field.label)}`,
+      ar: `كيف تتغير النتيجة عند تعديل ${localizedPairText(field.label)}`,
+      hi: `${localizedPairText(field.label)} बदलने पर रिजल्ट कैसे बदलता है`,
+    }),
+    desc: tx({
+      zh: "不需要重新手动试很多次，先看这一列就能判断参数敏感度。",
+      en: "See sensitivity quickly before you start manually testing lots of values.",
+      ja: "何度も手動で試す前に、まず感度をひと目で確認できます。",
+      ko: "여러 번 수동으로 바꾸기 전에 민감도를 먼저 확인할 수 있습니다.",
+      es: "Te ayuda a ver la sensibilidad sin probar manualmente muchos valores.",
+      fr: "Permet de voir la sensibilité du résultat avant de multiplier les essais manuels.",
+      de: "Zeigt die Sensitivität, bevor du viele Werte manuell testen musst.",
+      pt: "Mostra a sensibilidade do resultado antes de testar vários valores manualmente.",
+      ru: "Показывает чувствительность результата до ручного перебора множества значений.",
+      ar: "تعرض حساسية النتيجة قبل أن تبدأ بالتجربة اليدوية المتكررة.",
+      hi: "बार-बार हाथ से ट्राय करने से पहले संवेदनशीलता साफ दिख जाती है।",
+    }),
+    headers: [
+      localizedPairText(field.label),
+      currentConfig()?.compute(values).kpis[0]?.[0] || tPair("结果 1", "Result 1"),
+      currentConfig()?.compute(values).kpis[1]?.[0] || tPair("结果 2", "Result 2"),
+      currentConfig()?.compute(values).kpis[2]?.[0] || tPair("结果 3", "Result 3"),
+    ],
+    rows,
+  };
+}
+
+function buildPresetSet(config) {
+  const family = familyForSlug(currentSlug());
+  const numericFields = config.features.filter((item) => !["date", "time", "datetime-local", "text", "select"].includes(item.type));
+  if (!numericFields.length) return [];
+  const defaults = Object.fromEntries(config.features.map((item) => [item.id, typeof item.default === "function" ? item.default() : item.default]));
+  const scale = (factor) => Object.fromEntries(numericFields.map((field) => [field.id, Number((defaults[field.id] * factor).toFixed(field.step && `${field.step}`.includes(".") ? `${field.step}`.split(".")[1].length : 0))]));
+  const presetsByFamily = {
+    loan: [
+      { label: tx({ zh: "轻月供", en: "Lower payment" }), values: scale(0.85) },
+      { label: tx({ zh: "平衡方案", en: "Balanced" }), values: scale(1) },
+      { label: tx({ zh: "看上限", en: "Stress test" }), values: scale(1.18) },
+    ],
+    investing: [
+      { label: tx({ zh: "保守投入", en: "Conservative" }), values: scale(0.85) },
+      { label: tx({ zh: "目标方案", en: "Base plan" }), values: scale(1) },
+      { label: tx({ zh: "冲刺方案", en: "Stretch plan" }), values: scale(1.25) },
+    ],
+    tax: [
+      { label: tx({ zh: "基准薪资", en: "Base income" }), values: scale(1) },
+      { label: tx({ zh: "涨薪对比", en: "Raise check" }), values: scale(1.15) },
+      { label: tx({ zh: "保守估算", en: "Conservative" }), values: scale(0.9) },
+    ],
+    health: [
+      { label: tx({ zh: "日常参考", en: "Daily baseline" }), values: scale(1) },
+      { label: tx({ zh: "轻调整", en: "Light change" }), values: scale(0.9) },
+      { label: tx({ zh: "高强度", en: "Higher demand" }), values: scale(1.12) },
+    ],
+    utility: [
+      { label: tx({ zh: "标准值", en: "Default" }), values: scale(1) },
+      { label: tx({ zh: "偏低值", en: "Lower" }), values: scale(0.85) },
+      { label: tx({ zh: "偏高值", en: "Higher" }), values: scale(1.15) },
+    ],
+    cashflow: [
+      { label: tx({ zh: "保守预算", en: "Lean plan" }), values: scale(0.88) },
+      { label: tx({ zh: "标准预算", en: "Base plan" }), values: scale(1) },
+      { label: tx({ zh: "宽松预算", en: "Flexible plan" }), values: scale(1.15) },
+    ],
+    consumer: [
+      { label: tx({ zh: "谨慎方案", en: "Careful" }), values: scale(0.9) },
+      { label: tx({ zh: "常用方案", en: "Typical" }), values: scale(1) },
+      { label: tx({ zh: "高消费方案", en: "Higher spend" }), values: scale(1.15) },
+    ],
+  };
+  return presetsByFamily[family] || presetsByFamily.utility;
+}
+
+function renderHeroPresets(config) {
+  const root = document.querySelector("[data-hero-presets]");
+  if (!root) return;
+  currentUiState.presets = buildPresetSet(config);
+  root.innerHTML = `
+    <div class="preset-block">
+      <strong>${tx(CALC_UI.heroPresetLabel)}</strong>
+      <div class="toggle-row">
+        ${currentUiState.presets.map((preset, index) => `<button type="button" class="toggle" data-preset-index="${index}">${preset.label}</button>`).join("")}
+      </div>
+    </div>
+  `;
+}
+
+function familyScenarios(family) {
+  const map = {
+    loan: [
+      { label: tx({ zh: "买房", en: "Home buy" }), tip: tx({ zh: "先盯月供和总利息，再决定预算上限，不要先看能贷多少。", en: "Check the monthly payment and total interest first. Do not set the budget only by what the bank may approve." }) },
+      { label: tx({ zh: "买车", en: "Car buy" }), tip: tx({ zh: "车贷更容易被“月供不高”迷惑，重点看总成本和折旧叠加后的现金流压力。", en: "Car finance often looks harmless because the monthly number feels small. Focus on the total cost and the cash-flow pressure after depreciation." }) },
+      { label: tx({ zh: "装修", en: "Renovation" }), tip: tx({ zh: "装修贷要预留材料涨价和工期延长的缓冲，不要把预算压得太满。", en: "Keep some room for material price changes and timeline delays. Do not push the budget to the limit." }) },
+      { label: tx({ zh: "消费贷", en: "Consumer loan" }), tip: tx({ zh: "消费贷更适合短期明确用途，若期限过长，成本往往会被低估。", en: "Consumer loans work best for clear short-term needs. If the term becomes too long, total cost is often underestimated." }) },
+    ],
+    investing: [
+      { label: tx({ zh: "退休", en: "Retirement" }), tip: tx({ zh: "先反推目标金额，再用当前投入额测试差距，而不是盯短期收益率。", en: "Backsolve the target first, then test how far your current contribution goes instead of obsessing over short-term returns." }) },
+      { label: tx({ zh: "教育金", en: "Education" }), tip: tx({ zh: "教育金有明确时间点，重点看时间够不够和保守情景是否还能成立。", en: "Education goals have hard deadlines. Focus on whether the timeline works even under a conservative scenario." }) },
+      { label: tx({ zh: "首付", en: "Down payment" }), tip: tx({ zh: "首付款目标最怕收益假设过高，建议同时看基准和保守两档。", en: "Down-payment planning suffers most from optimistic assumptions. Compare base and conservative cases together." }) },
+      { label: tx({ zh: "自由资金", en: "Freedom fund" }), tip: tx({ zh: "自由资金要比普通目标更重视现金流连续性和回撤承受力。", en: "A freedom fund depends more on consistency and drawdown tolerance than on chasing headline returns." }) },
+    ],
+    cashflow: [
+      { label: tx({ zh: "月度复盘", en: "Monthly reset" }), tip: tx({ zh: "先用当前数据看缺口，再决定是削减支出还是提高储蓄率。", en: "Use the current numbers to find the gap first, then decide whether to cut spending or raise savings." }) },
+      { label: tx({ zh: "大额目标", en: "Big goal" }), tip: tx({ zh: "遇到买房、旅行、教育等大额目标时，要把时间和现金流一起看。", en: "For large goals like housing, travel, or education, evaluate both the timeline and the cash flow." }) },
+      { label: tx({ zh: "收入波动", en: "Variable income" }), tip: tx({ zh: "收入不稳定时，先保留更高缓冲，再讨论更激进的目标。", en: "If income is unstable, keep a larger buffer before moving to aggressive targets." }) },
+      { label: tx({ zh: "家庭预算", en: "Household" }), tip: tx({ zh: "家庭预算要留出意外支出弹性，不要只看理想月份。", en: "Leave flexibility for irregular costs. Do not optimize the budget only for ideal months." }) },
+    ],
+    tax: [
+      { label: tx({ zh: "跳槽", en: "Job offer" }), tip: tx({ zh: "谈 offer 时先看税后差额，再讨论搬家、通勤和福利差异。", en: "When reviewing an offer, compare net income first, then weigh relocation, commute, and benefits." }) },
+      { label: tx({ zh: "谈薪", en: "Negotiation" }), tip: tx({ zh: "涨薪不是只看税前数字，重点是税后每月多多少。", en: "A raise is not about the gross number alone. Focus on how much more lands in your account each month." }) },
+      { label: tx({ zh: "跨城", en: "Relocation" }), tip: tx({ zh: "跨城工作要同时看税后收入和当地生活成本，不能只盯工资。", en: "A relocation decision should compare take-home pay with local living costs, not salary alone." }) },
+      { label: tx({ zh: "副业", en: "Side income" }), tip: tx({ zh: "副业收入更需要预留税费和波动缓冲，别把新增收入全部当成可花的钱。", en: "Side income needs a tax buffer and volatility cushion. Do not treat all of it as instantly spendable." }) },
+    ],
+    consumer: [
+      { label: tx({ zh: "分期购物", en: "Installments" }), tip: tx({ zh: "分期看起来轻松，但如果手续费和利息叠加，长期成本会高很多。", en: "Installments feel light monthly, but fees and interest can make the long-run cost much higher." }) },
+      { label: tx({ zh: "信用卡周转", en: "Card rollover" }), tip: tx({ zh: "最低还款更像买时间，而不是解决债务。重点看多久能真正还清。", en: "Minimum payment buys time, not a clean solution. Focus on how long full repayment really takes." }) },
+      { label: tx({ zh: "跨境消费", en: "Cross-border" }), tip: tx({ zh: "跨境支付要把汇率、手续费和返现一起看，别只看账单金额。", en: "For cross-border spending, combine exchange rate, fees, and rewards instead of looking at the bill amount alone." }) },
+      { label: tx({ zh: "积分兑换", en: "Points use" }), tip: tx({ zh: "积分价值不在点数本身，而在兑换回来的实际价值。", en: "The value of points is not the balance itself, but what they redeem for in real money terms." }) },
+    ],
+    health: [
+      { label: tx({ zh: "减脂", en: "Fat loss" }), tip: tx({ zh: "先看可持续的节奏，再看极端目标。身体管理更怕反弹，不怕慢一点。", en: "Choose a sustainable rhythm before chasing an extreme target. In health planning, rebound is a bigger risk than moving a little slower." }) },
+      { label: tx({ zh: "备孕", en: "Fertility" }), tip: tx({ zh: "周期和孕期工具更适合做时间规划，不适合替代专业判断。", en: "Cycle and fertility tools are strong for planning timelines, but they do not replace clinical guidance." }) },
+      { label: tx({ zh: "训练", en: "Training" }), tip: tx({ zh: "运动相关结果要配合恢复、睡眠和饮食一起判断，不要只看单项数字。", en: "Exercise-related numbers should be read together with recovery, sleep, and nutrition rather than in isolation." }) },
+      { label: tx({ zh: "日常管理", en: "Routine" }), tip: tx({ zh: "健康工具更适合反复记录和趋势观察，一次结果通常只说明当天状态。", en: "Health tools are most valuable when used repeatedly for trend tracking. One result often reflects only the current moment." }) },
+    ],
+    utility: [
+      { label: tx({ zh: "工作", en: "Work" }), tip: tx({ zh: "工具类页面最适合快速验证，算完后可以顺手跳到更相关的下一页。", en: "Utility pages are best for fast checks, then a quick jump to the next relevant tool." }) },
+      { label: tx({ zh: "学习", en: "Study" }), tip: tx({ zh: "学习场景更适合边算边改，比较不同条件比只看一个答案更有用。", en: "In study use cases, comparing conditions usually helps more than looking at a single answer once." }) },
+      { label: tx({ zh: "报价核对", en: "Quote check" }), tip: tx({ zh: "遇到报价或工时核算时，先算一遍能明显降低判断失误。", en: "When checking quotes or time totals, a quick calculation often reduces avoidable mistakes." }) },
+      { label: tx({ zh: "日常速查", en: "Quick check" }), tip: tx({ zh: "高频小工具的价值就在于打开即用、改值即看，不需要读很长说明。", en: "High-frequency tools work best when they open fast and react quickly without demanding a long read first." }) },
+    ],
+  };
+  return map[family] || map.utility;
+}
+
+function relatedSlugsForCurrent(slug) {
+  const group = CATALOG_GROUPS.find((item) => item.slugs.includes(slug));
+  const fromGroup = (group?.slugs || []).filter((item) => item !== slug);
+  const custom = {
+    loan: ["prepayment", "mortgage-affordability", "down-payment", "rent-vs-buy"],
+    "provident-fund-loan": ["loan", "combination-loan", "mortgage-principal", "down-payment"],
+    prepayment: ["loan", "mortgage-rate-change", "mortgage-principal", "monthly-budget"],
+    "credit-card-minimum": ["credit-card-installment", "credit-card-interest", "monthly-budget", "debt-ratio"],
+    "credit-card-installment": ["credit-card-minimum", "credit-card-interest", "monthly-budget", "debt-ratio"],
+    "sip-compound": ["retirement", "investment-goal", "etf-return", "inflation"],
+    retirement: ["sip-compound", "fire-retirement", "net-worth", "inflation"],
+  };
+  return [...new Set([...(custom[slug] || []), ...fromGroup])].filter((item) => item !== slug).slice(0, 4);
+}
+
+function renderResultSummary(kpis) {
+  return `
+    <div class="summary-grid">
+      ${kpis.slice(0, 4).map((item) => `<div class="kpi-card"><small>${item[0]}</small><strong>${item[1]}</strong></div>`).join("")}
+    </div>
+  `;
+}
+
+function renderInsightPanel(result) {
+  const notes = [result.note, ...(result.insights || []).slice(0, 2).map((item) => item[1])].filter(Boolean);
+  return `
+    <div class="insight-panel">
+      <h3>${tx(CALC_UI.explainTitle)}</h3>
+      <div class="insight-grid">
+        ${notes.map((item, index) => `<div class="insight-card"><strong>${index === 0 ? tPair("先看这里", "Start here") : result.insights[index - 1]?.[0] || tPair("补充判断", "More context")}</strong><p>${item}</p></div>`).join("")}
+      </div>
+    </div>
+  `;
+}
+
+function renderNextActions(slug) {
+  const localPath = window.__siteI18n?.localizedPath || ((href) => href);
+  currentUiState.related = relatedSlugsForCurrent(slug);
+  const cards = currentUiState.related.slice(0, 3).map((item) => {
+    const config = calculatorConfigs[item];
+    if (!config) return "";
+    return `
+      <a class="next-action-card" href="${localPath(`/calculators/${item}/`)}">
+        <strong>${localizedPairText(config.name)}</strong>
+        <span>${localizedPairText(config.subtitle)}</span>
+      </a>
+    `;
+  }).join("");
+  return `
+    <div class="next-step-panel">
+      <h3>${tx(CALC_UI.nextTitle)}</h3>
+      <div class="next-action-grid">${cards}</div>
+    </div>
+  `;
+}
+
+function renderResultOverview(result, slug) {
+  const root = document.querySelector("[data-result-overview]");
   if (!root) return;
   root.innerHTML = `
-    <article class="content-card article-block table-card">
-      <span class="badge">${tPair("数据对照", "Comparison")}</span>
-      <h2>${table.title}</h2>
-      <p>${table.desc}</p>
-      <table class="data-table">
-        <thead><tr>${table.headers.map((header) => `<th>${header}</th>`).join("")}</tr></thead>
-        <tbody>${table.rows.map((row) => `<tr>${row.map((cell) => `<td>${cell}</td>`).join("")}</tr>`).join("")}</tbody>
-      </table>
+    <section class="content-card result-overview-card">
+      <div class="section-head">
+        <span class="badge">${tx(CALC_UI.overviewBadge)}</span>
+        <h2>${tx(CALC_UI.overviewTitle)}</h2>
+      </div>
+      ${renderResultSummary(result.kpis)}
+      <div class="overview-actions">
+        <button type="button" class="button button--secondary" data-calc-action="compare">${tx(CALC_UI.viewCompare)}</button>
+        <button type="button" class="button button--secondary" data-calc-action="copy">${tx(CALC_UI.copyLink)}</button>
+        <button type="button" class="button button--secondary" data-calc-action="reset">${tx(CALC_UI.resetInputs)}</button>
+      </div>
+      ${renderInsightPanel(result)}
+      ${renderNextActions(slug)}
+    </section>
+  `;
+}
+
+function renderComparisonTable(section) {
+  return `
+    <article class="content-card article-block table-card comparison-card">
+      <h3>${section.title}</h3>
+      <p>${section.desc}</p>
+      <div class="table-scroll">
+        <table class="data-table">
+          <thead><tr>${section.headers.map((header) => `<th>${header}</th>`).join("")}</tr></thead>
+          <tbody>${section.rows.map((row) => `<tr>${row.map((cell) => `<td>${cell}</td>`).join("")}</tr>`).join("")}</tbody>
+        </table>
+      </div>
     </article>
   `;
+}
+
+function renderComparisons(config, values, result) {
+  const root = document.querySelector("[data-comparisons]");
+  if (!root) return;
+  const sections = [];
+  if (result.table) sections.push(result.table);
+  comparisonFieldCandidates(config).forEach((field) => {
+    const section = createComparisonSection(config, values, field);
+    if (section && !sections.find((item) => item.title === section.title)) sections.push(section);
+  });
+  root.innerHTML = `
+    <section class="comparison-section" id="comparison-section">
+      <div class="section-head">
+        <span class="badge">${tx(CALC_UI.comparisonBadge)}</span>
+        <h2>${tPair("把参数拉开看，才知道结果是否敏感", "Pull the inputs apart to see what really moves the result")}</h2>
+        <p>${tPair("重点不是只看当前答案，而是看它在不同期限、利率、预算或节奏下怎么变化。", "The point is not only the current answer, but how it changes across term, rate, budget, or pace.")}</p>
+      </div>
+      <div class="comparison-stack">
+        ${sections.slice(0, 3).map((section) => renderComparisonTable(section)).join("")}
+      </div>
+    </section>
+  `;
+}
+
+function buildDecisionGuide(config, values, result) {
+  const family = familyForSlug(currentSlug());
+  const first = result.kpis[0]?.[1] || "--";
+  const second = result.kpis[1]?.[1] || "--";
+  const templates = {
+    loan: [
+      [tPair("现金流优先", "Cash flow first"), tPair(`如果你最在意每个月好不好扛，先盯住 ${first}，并把收入压力一起算进去。`, `If monthly flexibility matters most, anchor on ${first} and compare it against income pressure before anything else.`)],
+      [tPair("总成本优先", "Total cost first"), tPair(`如果你更在意长期成本，${second} 往往比表面的月供更值得优先看。`, `If long-term cost matters more, ${second} usually deserves more attention than the monthly number alone.`)],
+      [tPair("收入波动人群", "If income is variable"), tPair("收入不稳定时，不要把预算压到极限，留出 3 到 6 个月缓冲后再做决定。", "If income is uneven, avoid stretching the budget to the limit. Keep a 3 to 6 month buffer before committing.")],
+    ],
+    investing: [
+      [tPair("先看投入是否能长期坚持", "Check sustainability first"), tPair(`当前方案的关键不是一次性冲高，而是能否长期维持到 ${first} 对应的目标。`, `The key is not one aggressive push, but whether this plan can be sustained long enough to reach the path behind ${first}.`)],
+      [tPair("收益假设别太乐观", "Keep return assumptions realistic"), tPair("建议至少同时看基准和保守两档，这样回撤出现时也更容易坚持。", "Always compare a base case with a conservative case so the plan still feels manageable during drawdowns.")],
+      [tPair("目标导向更容易坚持", "Goals improve consistency"), tPair(`如果 ${second} 的占比已经很高，说明长期效果主要靠时间而不是频繁择时。`, `If ${second} is already doing a lot of the work, time may matter more than frequent timing tweaks.`)],
+    ],
+    tax: [
+      [tPair("先用税后做决策", "Use after-tax numbers"), tPair(`真正影响生活的是到手结果，不是合同上的税前数字。先盯住 ${first}。`, `What affects real life is the after-tax result, not the gross number on paper. Start with ${first}.`)],
+      [tPair("比较不同薪资别只看涨幅", "Do not compare offers by gross raise alone"), tPair("涨薪后到手增加多少，才是更接近真实消费和储蓄能力的指标。", "What matters is how much extra reaches your account after tax, because that reflects real spending and saving capacity.")],
+      [tPair("波动收入更要预留缓冲", "Keep extra buffer for variable income"), tPair("如果收入结构里有奖金、提成或副业，别把理想月份当成年平均水平。", "If your income includes bonuses, commission, or side work, do not treat a strong month as the long-term baseline.")],
+    ],
+    health: [
+      [tPair("先看是否可持续", "Start with sustainability"), tPair("健康相关决策更怕反弹和中断，先选你能长期执行的方案。", "In health decisions, rebound and inconsistency are usually more dangerous than moving a little slower.")],
+      [tPair("单次结果只适合做参考", "Use one result as a reference"), tPair(`这次的核心值是 ${first}，更大的价值在于之后持续记录趋势。`, `The current key value is ${first}, but the bigger value comes from tracking the trend over time.`)],
+      [tPair("场景不同，提醒也不同", "Context changes the advice"), tPair("减脂、备孕、孕期和运动恢复看的是不同重点，别把一个数字当成全部结论。", "Fat loss, fertility, pregnancy, and recovery have different priorities. One metric should not become the entire conclusion.")],
+    ],
+    utility: [
+      [tPair("优先解决眼前问题", "Solve the immediate question first"), tPair(`先拿到 ${first} 这个关键答案，再决定是否需要更深入的相关工具。`, `Get the key answer behind ${first} first, then decide whether you need a deeper follow-up tool.`)],
+      [tPair("对比比单看一个结果更有用", "Comparison beats a single answer"), tPair("参数稍微一改，结论就可能不同，所以多测两组通常更值。", "A small input change can change the conclusion. Testing two or three setups is usually more useful than stopping at one answer.")],
+      [tPair("高频工具适合收藏", "High-frequency tools are worth saving"), tPair("这类页面最适合加书签，后面改几个数就能再次得到结果。", "This kind of page is worth bookmarking because a small edit later gives you a fresh result instantly.")],
+    ],
+    cashflow: [
+      [tPair("先守住底盘", "Protect the floor first"), tPair("预算、储蓄和净资产相关页面，先解决安全垫，再谈更进取的目标。", "On budgeting, savings, and net-worth pages, secure the buffer first before pushing more aggressive goals.")],
+      [tPair("看缺口比看理想值更关键", "Gaps matter more than ideal targets"), tPair(`如果当前最核心的结果是 ${first}，那接下来要判断的就是离目标还有多远。`, `If ${first} is the key result now, the next question is how far you still are from the target.`)],
+      [tPair("收入波动时保守一点", "Be more conservative when income varies"), tPair("收入不稳定时，建议把计划建立在偏保守的月份，而不是最好看的月份。", "If income moves around, build the plan around conservative months rather than the best-looking month.")],
+    ],
+    consumer: [
+      [tPair("先算真实成本", "Calculate real cost first"), tPair("消费相关页面最容易被月供、折扣或积分数字误导，先看真实总成本。", "Consumer pages are where monthly payments, discounts, and points can be most misleading. Always calculate the real total cost first.")],
+      [tPair("换一个参数再看一次", "Change one parameter and test again"), tPair("金额、利率、手续费和兑换方式随便变一个，结果都可能差很多。", "A change in amount, rate, fee, or redemption method can materially change the conclusion.")],
+      [tPair("把下一页一起算掉", "Pair it with the next tool"), tPair("信用卡、汇率和预算类页面最适合串着看，这样更容易形成完整判断。", "Credit-card, exchange-rate, and budget tools work best when used together as one decision flow.")],
+    ],
+  };
+  return templates[family] || templates.utility;
+}
+
+function renderDecisionGuide(config, values, result) {
+  const root = document.querySelector("[data-decision-guide]");
+  if (!root) return;
+  const cards = buildDecisionGuide(config, values, result);
+  root.innerHTML = `
+    <section class="decision-section">
+      <div class="section-head">
+        <span class="badge">${tx(CALC_UI.decisionBadge)}</span>
+        <h2>${tPair("不是只有结果，更要知道应该怎么判断", "The number matters less than knowing how to judge it")}</h2>
+      </div>
+      <div class="decision-grid">
+        ${cards.map((item) => `<article class="content-card decision-card"><h3>${item[0]}</h3><p>${item[1]}</p></article>`).join("")}
+      </div>
+    </section>
+  `;
+}
+
+function renderScenarioTips() {
+  const root = document.querySelector("[data-scenarios]");
+  if (!root) return;
+  currentUiState.scenarios = familyScenarios(familyForSlug(currentSlug()));
+  root.innerHTML = `
+    <section class="scenario-section">
+      <div class="section-head">
+        <span class="badge">${tx(CALC_UI.scenarioBadge)}</span>
+        <h2>${tPair("换个真实场景看，同一个结果会更容易做决策", "A real-world scenario makes the same result easier to act on")}</h2>
+      </div>
+      <div class="scenario-tabs">
+        ${currentUiState.scenarios.map((item, index) => `<button type="button" class="toggle ${index === 0 ? "is-active" : ""}" data-scenario-index="${index}">${item.label}</button>`).join("")}
+      </div>
+      <article class="content-card scenario-card" data-scenario-copy>${currentUiState.scenarios[0]?.tip || ""}</article>
+    </section>
+  `;
+}
+
+function buildFaqItems(config, article) {
+  const family = familyForSlug(currentSlug());
+  const common = {
+    loan: [
+      [tPair("贷款计算器里最该优先看什么？", "What should I prioritize in a loan calculator?"), tPair("先看月供是否可承受，再看总利息是否偏高。很多人只看能不能贷下来，却忽略了之后多年的现金流压力。", "Check affordability first, then total interest. Many people focus on approval and overlook the cash-flow pressure that follows for years.")],
+      [tPair("贷款期限更长一定更好吗？", "Is a longer loan term always better?"), tPair("期限更长通常会让月供更轻，但总利息更高。更适合哪一种，要看你是现金流优先还是总成本优先。", "A longer term often reduces the monthly payment but increases total interest. The better choice depends on whether you care more about cash flow or total cost.")],
+    ],
+    investing: [
+      [tPair("定投和复利页面最该看哪个数字？", "Which number matters most on an investing page?"), tPair("先看目标金额和时间能否匹配，再看收益贡献占比。长期投资里，节奏是否能坚持往往比一次收益率更重要。", "Check whether the timeline matches the goal amount first, then look at how much comes from gains. In long-term investing, consistency often matters more than a single return assumption.")],
+      [tPair("收益率应该填多高才合理？", "What return assumption is reasonable?"), tPair("更稳妥的做法是同时测保守、基准和积极三档。不要只用一个乐观数字做长期计划。", "A safer approach is to test conservative, base, and optimistic cases together. Do not build a long-term plan on a single optimistic number.")],
+    ],
+    tax: [
+      [tPair("为什么税后收入比税前工资更重要？", "Why does take-home pay matter more than gross salary?"), tPair("因为实际生活、储蓄和预算都靠税后收入决定。税前数字只适合做初步参考，不能代表真正可支配金额。", "Because real life, saving, and budgeting all depend on take-home pay. Gross salary is only a starting reference and does not reflect spendable money.")],
+      [tPair("谈薪时应该用这个结果怎么判断？", "How should I use this result in a salary negotiation?"), tPair("把不同方案的税后差额放在一起看，再叠加通勤、福利和生活成本，你会比只看税前涨幅更容易做决定。", "Compare the net-income gap across offers, then add commute, benefits, and living costs. That leads to a stronger decision than looking at gross salary alone.")],
+    ],
+    consumer: [
+      [tPair("为什么消费类工具也值得反复算？", "Why are consumer calculators worth revisiting?"), tPair("因为利率、手续费、分期方式和汇率常常会变。很多时候改一个参数，结果差异就会很明显。", "Because rates, fees, installment methods, and exchange rates can change. In many cases, a single parameter shift changes the conclusion materially.")],
+      [tPair("最低还款或分期真的更轻松吗？", "Is minimum payment or installment always easier?"), tPair("短期看压力会小一些，但长期总成本往往更高。适不适合，要结合你后续几个月的现金流一起看。", "They can ease short-term pressure, but they often raise the total cost. Whether that trade-off is worth it depends on your upcoming cash flow.")],
+    ],
+    cashflow: [
+      [tPair("预算类页面最适合看哪部分结果？", "What should I focus on in a budgeting page?"), tPair("最值得盯的是缺口、储蓄率和安全垫。它们决定你是处在稳定状态，还是已经需要调整节奏。", "The most useful outputs are the gap, savings rate, and safety buffer. They tell you whether the plan is stable or already needs adjustment.")],
+      [tPair("为什么我应该经常回来重算？", "Why should I recalculate regularly?"), tPair("预算和现金流最怕按旧数据做决策。收入、支出或目标只要变了，重新算一次就很有价值。", "Budgeting and cash flow suffer most when decisions rely on stale data. Once income, spending, or goals change, recalculating becomes valuable.")],
+    ],
+    health: [
+      [tPair("健康类计算器为什么不能只看一次结果？", "Why should I not rely on a single health result?"), tPair("身体状态会随作息、周期、训练和饮食变化。多数健康工具更适合做趋势观察，而不是一次性定论。", "Physical conditions change with routines, cycles, training, and diet. Most health tools are better for trend tracking than one-off conclusions.")],
+      [tPair("健康计算结果能替代专业建议吗？", "Can a health calculator replace professional advice?"), tPair("不能。它更适合做日常参考和时间规划，正式医疗或营养判断仍然需要专业意见。", "No. It works best for daily reference and planning, while medical or nutritional decisions still need professional input.")],
+    ],
+    utility: [
+      [tPair("工具类页面为什么也适合做成详情页？", "Why do utility tools still deserve a full detail page?"), tPair("因为用户不只要一个数字，还需要知道这个数字怎么判断、什么时候该继续跳到下一页。", "Because users do not only want a number. They also want to know how to judge it and when to move to the next relevant tool.")],
+      [tPair("这种工具有什么 SEO 价值？", "What SEO value do these utility pages have?"), tPair("只要围绕真实搜索问题写清楚场景、判断和常见误区，工具页不仅能解答问题，还能承接后续站内跳转。", "When the page explains real search questions, use cases, and mistakes clearly, utility pages can answer the query and drive deeper site navigation.")],
+    ],
+  };
+  return [...(article?.faq || []), ...((common[family] || common.utility))].slice(0, 5);
 }
 
 function renderArticle(article) {
   const root = document.querySelector("[data-article]");
   if (!root) return;
-  const blocks = article.blocks.map((block) => `
+  root.innerHTML = (article.blocks || []).map((block) => `
     <article class="content-card article-block">
       <h2>${block.title}</h2>
       ${(block.paragraphs || []).map((p) => `<p>${p}</p>`).join("")}
       ${block.list ? `<ul class="list">${block.list.map((item) => `<li>${item}</li>`).join("")}</ul>` : ""}
     </article>
   `).join("");
-  const faq = `
+}
+
+function renderFAQAccordion(config, article) {
+  const root = document.querySelector("[data-faq]");
+  if (!root) return;
+  const faqItems = buildFaqItems(config, article);
+  root.innerHTML = `
     <article class="content-card article-block faq-card">
-      <span class="badge">${tPair("常见问题", "FAQ")}</span>
-      <h2>${tPair("用户常见问题", "Frequently Asked Questions")}</h2>
+      <span class="badge">${tx(CALC_UI.faqBadge)}</span>
+      <h2>${tx(CALC_UI.faqTitle)}</h2>
       <div class="faq-list">
-        ${article.faq.map((item) => `<details class="faq-item"><summary>${item[0]}</summary><p>${item[1]}</p></details>`).join("")}
+        ${faqItems.map((item, index) => `<details class="faq-item" ${index === 0 ? "open" : ""}><summary>${item[0]}</summary><p>${item[1]}</p></details>`).join("")}
       </div>
     </article>
   `;
-  root.innerHTML = `${blocks}${faq}`;
 }
 
-function renderKpis(kpis) {
-  const root = document.querySelector("[data-kpis]");
+function renderRelatedTools() {
+  const root = document.querySelector("[data-related-tools]");
   if (!root) return;
-  root.innerHTML = kpis.map((item) => `<div class="kpi-card"><small>${item[0]}</small><strong>${item[1]}</strong></div>`).join("");
+  const localPath = window.__siteI18n?.localizedPath || ((href) => href);
+  root.innerHTML = `
+    <section class="related-section">
+      <div class="section-head">
+        <span class="badge">${tx(CALC_UI.relatedBadge)}</span>
+        <h2>${tx(CALC_UI.relatedTitle)}</h2>
+      </div>
+      <div class="cards cards--related">
+        ${currentUiState.related.map((slug) => {
+          const config = calculatorConfigs[slug];
+          if (!config) return "";
+          return `
+            <a class="calc-card related-card" href="${localPath(`/calculators/${slug}/`)}">
+              <h3>${localizedPairText(config.name)}</h3>
+              <p>${localizedPairText(config.subtitle)}</p>
+            </a>
+          `;
+        }).join("")}
+      </div>
+    </section>
+  `;
 }
 
 function renderResultPanel(kpis, note) {
   const root = document.querySelector("[data-result-grid]");
   if (!root) return;
-  root.innerHTML = kpis.slice(0, 4).map((item) => `<div class="result__item"><small>${item[0]}</small><strong>${item[1]}</strong></div>`).join("");
+  root.innerHTML = kpis.slice(0, 2).map((item) => `<div class="result__item"><small>${item[0]}</small><strong>${item[1]}</strong></div>`).join("");
   const noteNode = document.querySelector("[data-result-note]");
   if (noteNode) noteNode.textContent = note;
+  const actionRoot = document.querySelector("[data-result-actions]");
+  if (actionRoot) {
+    actionRoot.innerHTML = `
+      <button type="button" class="button button--secondary" data-calc-action="compare">${tx(CALC_UI.viewCompare)}</button>
+      <button type="button" class="button button--secondary" data-calc-action="copy">${tx(CALC_UI.copyLink)}</button>
+      <button type="button" class="button button--secondary" data-calc-action="reset">${tx(CALC_UI.resetInputs)}</button>
+    `;
+  }
+  const mobileRoot = document.querySelector("[data-mobile-summary]");
+  if (mobileRoot) {
+    mobileRoot.innerHTML = `
+      <div class="mobile-summary-card">
+        <span>${tx(CALC_UI.summarySticky)}</span>
+        <strong>${kpis[0]?.[1] || "--"}</strong>
+        <small>${kpis[0]?.[0] || ""}</small>
+        <button type="button" class="button" data-calc-action="compare">${tx(CALC_UI.viewCompare)}</button>
+      </div>
+    `;
+  }
 }
 
 function setHeadMeta(name, content, property = false) {
@@ -2563,7 +3379,8 @@ function renderFields(config) {
   const root = document.querySelector("[data-fields]");
   if (!root) return;
   root.innerHTML = config.features.map((item) => {
-    const defaultValue = typeof item.default === "function" ? item.default() : item.default;
+    const queryOverride = queryValue(item.id);
+    const defaultValue = queryOverride ?? (typeof item.default === "function" ? item.default() : item.default);
     const label = localizedPairText(item.label);
     const inputHtml = item.type === "select"
       ? `<select id="${item.id}">${item.options.map((option) => {
@@ -2601,12 +3418,17 @@ function calculateAndRender() {
   if (!config) return;
   const values = getFormValues(config);
   const result = config.compute(values);
-  renderKpis(result.kpis);
+  syncFormStateToUrl(config, values);
   renderResultPanel(result.kpis, result.note);
+  renderResultOverview(result, currentSlug());
+  renderComparisons(config, values, result);
+  renderDecisionGuide(config, values, result);
+  renderScenarioTips();
   renderCharts(result.charts);
-  renderInsights(result.insights);
-  renderTable(result.table);
   renderArticle(result.article);
+  renderFAQAccordion(config, result.article);
+  renderRelatedTools();
+  updateLiveFeedback("ready");
 }
 
 function applyCalculatorLanguage() {
@@ -2616,13 +3438,73 @@ function applyCalculatorLanguage() {
   applyConfigToPage(config);
   renderLocationContext(config);
   renderFields(config);
+  renderHeroPresets(config);
+  const helper = document.querySelector("[data-form-prompt]");
+  if (helper) helper.textContent = tx(CALC_UI.formPrompt);
   const buttonNode = document.querySelector("[data-submit-label]");
   if (buttonNode) buttonNode.textContent = tPair("立即测算", "Run Calculation");
   const heading = document.querySelector("[data-result-heading]");
   if (heading) heading.textContent = tPair("核心结果", "Core Results");
   const disclaimer = document.querySelector("[data-disclaimer]");
   if (disclaimer) disclaimer.textContent = tPair("结果用于测算与比较，不构成投资、税务、贷款或法律建议。请以实际机构规则和最新数据为准。", "Results are for estimation and comparison only. They do not replace official tax, lending, legal, or investment guidance.");
+  updateLiveFeedback("ready");
   calculateAndRender();
+}
+
+let recalcTimer = null;
+
+function updateLiveFeedback(state) {
+  const root = document.querySelector("[data-live-feedback]");
+  if (!root) return;
+  root.textContent = state === "pending" ? tx(CALC_UI.livePending) : tx(CALC_UI.liveReady);
+}
+
+function scheduleRecalculate() {
+  updateLiveFeedback("pending");
+  window.clearTimeout(recalcTimer);
+  recalcTimer = window.setTimeout(() => {
+    calculateAndRender();
+  }, 220);
+}
+
+function applyPreset(index) {
+  const config = currentConfig();
+  const preset = currentUiState.presets[index];
+  if (!config || !preset) return;
+  Object.entries(preset.values).forEach(([id, value]) => {
+    const node = document.getElementById(id);
+    if (node) node.value = value;
+  });
+  document.querySelectorAll("[data-preset-index]").forEach((node) => {
+    node.classList.toggle("is-active", `${index}` === node.getAttribute("data-preset-index"));
+  });
+  scheduleRecalculate();
+}
+
+function copyCurrentLink() {
+  if (!window.location?.href) return;
+  const href = window.location.href;
+  if (navigator.clipboard?.writeText) {
+    navigator.clipboard.writeText(href).then(() => updateLiveFeedback("ready"));
+  }
+  updateLiveFeedback("ready");
+  const root = document.querySelector("[data-live-feedback]");
+  if (root) root.textContent = tx(CALC_UI.copied);
+}
+
+function resetDefaults() {
+  const config = currentConfig();
+  if (!config) return;
+  config.features.forEach((field) => {
+    const node = document.getElementById(field.id);
+    if (!node) return;
+    node.value = typeof field.default === "function" ? field.default() : field.default;
+  });
+  scheduleRecalculate();
+}
+
+function scrollToComparisons() {
+  document.getElementById("comparison-section")?.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
 window.applyCalculatorLanguage = applyCalculatorLanguage;
@@ -2635,5 +3517,28 @@ document.addEventListener("DOMContentLoaded", () => {
   form.addEventListener("submit", (event) => {
     event.preventDefault();
     calculateAndRender();
+  });
+  form.addEventListener("input", scheduleRecalculate);
+  form.addEventListener("change", scheduleRecalculate);
+  document.addEventListener("click", (event) => {
+    const presetButton = event.target.closest("[data-preset-index]");
+    if (presetButton) {
+      applyPreset(Number(presetButton.getAttribute("data-preset-index")));
+      return;
+    }
+    const scenarioButton = event.target.closest("[data-scenario-index]");
+    if (scenarioButton) {
+      const index = Number(scenarioButton.getAttribute("data-scenario-index"));
+      document.querySelectorAll("[data-scenario-index]").forEach((node) => node.classList.toggle("is-active", node === scenarioButton));
+      const copy = document.querySelector("[data-scenario-copy]");
+      if (copy) copy.textContent = currentUiState.scenarios[index]?.tip || "";
+      return;
+    }
+    const actionButton = event.target.closest("[data-calc-action]");
+    if (!actionButton) return;
+    const action = actionButton.getAttribute("data-calc-action");
+    if (action === "copy") copyCurrentLink();
+    if (action === "reset") resetDefaults();
+    if (action === "compare") scrollToComparisons();
   });
 });

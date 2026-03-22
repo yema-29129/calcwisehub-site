@@ -44,6 +44,8 @@ const COMMON_COPY = {
     footerReminders: [
       '<a href="https://tmhzz.com/" target="_blank" rel="noopener noreferrer">天马黑珍珠社群</a>',
       '<a href="https://vooqqqm.com/" target="_blank" rel="noopener noreferrer">HIAMA 投资理财社群</a>',
+      '<a href="https://bank.vooqqqm.com/" target="_blank" rel="noopener noreferrer">薅羊毛活动站</a>',
+      '<a href="https://fitcalcify.com/" target="_blank" rel="noopener noreferrer">Health Toolkit Lab</a>',
     ],
     footerInfoTitle: "网站信息",
     adTitle: "从这里开始更高效",
@@ -65,6 +67,8 @@ const COMMON_COPY = {
     footerReminders: [
       '<a href="https://tmhzz.com/" target="_blank" rel="noopener noreferrer">Tianma Heizhenzhu Community</a>',
       '<a href="https://vooqqqm.com/" target="_blank" rel="noopener noreferrer">HIAMA Investing Community</a>',
+      '<a href="https://bank.vooqqqm.com/" target="_blank" rel="noopener noreferrer">Bank Bonus Deals</a>',
+      '<a href="https://fitcalcify.com/" target="_blank" rel="noopener noreferrer">Health Toolkit Lab</a>',
     ],
     footerInfoTitle: "Site Info",
     adTitle: "Start with what matters",
@@ -92,6 +96,8 @@ const COMMON_COPY = {
     footerReminders: [
       '<a href="https://tmhzz.com/" target="_blank" rel="noopener noreferrer">Comunidad Tianma Heizhenzhu</a>',
       '<a href="https://vooqqqm.com/" target="_blank" rel="noopener noreferrer">Comunidad de Inversión HIAMA</a>',
+      '<a href="https://bank.vooqqqm.com/" target="_blank" rel="noopener noreferrer">Bank Bonus Deals</a>',
+      '<a href="https://fitcalcify.com/" target="_blank" rel="noopener noreferrer">Health Toolkit Lab</a>',
     ],
     footerInfoTitle: "Información",
   },
@@ -113,6 +119,8 @@ const COMMON_COPY = {
     footerReminders: [
       '<a href="https://tmhzz.com/" target="_blank" rel="noopener noreferrer">Communauté Tianma Heizhenzhu</a>',
       '<a href="https://vooqqqm.com/" target="_blank" rel="noopener noreferrer">Communauté d\'investissement HIAMA</a>',
+      '<a href="https://bank.vooqqqm.com/" target="_blank" rel="noopener noreferrer">Bank Bonus Deals</a>',
+      '<a href="https://fitcalcify.com/" target="_blank" rel="noopener noreferrer">Health Toolkit Lab</a>',
     ],
     footerInfoTitle: "Infos site",
   },
@@ -134,6 +142,8 @@ const COMMON_COPY = {
     footerReminders: [
       '<a href="https://tmhzz.com/" target="_blank" rel="noopener noreferrer">Tianma Heizhenzhu Community</a>',
       '<a href="https://vooqqqm.com/" target="_blank" rel="noopener noreferrer">HIAMA Investment Community</a>',
+      '<a href="https://bank.vooqqqm.com/" target="_blank" rel="noopener noreferrer">Bank Bonus Deals</a>',
+      '<a href="https://fitcalcify.com/" target="_blank" rel="noopener noreferrer">Health Toolkit Lab</a>',
     ],
     footerInfoTitle: "Websiteinfo",
   },
@@ -155,6 +165,8 @@ const COMMON_COPY = {
     footerReminders: [
       '<a href="https://tmhzz.com/" target="_blank" rel="noopener noreferrer">Comunidade Tianma Heizhenzhu</a>',
       '<a href="https://vooqqqm.com/" target="_blank" rel="noopener noreferrer">Comunidade de Investimento HIAMA</a>',
+      '<a href="https://bank.vooqqqm.com/" target="_blank" rel="noopener noreferrer">Bank Bonus Deals</a>',
+      '<a href="https://fitcalcify.com/" target="_blank" rel="noopener noreferrer">Health Toolkit Lab</a>',
     ],
     footerInfoTitle: "Informações",
   },
@@ -176,6 +188,8 @@ const COMMON_COPY = {
     footerReminders: [
       '<a href="https://tmhzz.com/" target="_blank" rel="noopener noreferrer">Сообщество Tianma Heizhenzhu</a>',
       '<a href="https://vooqqqm.com/" target="_blank" rel="noopener noreferrer">Инвестиционное сообщество HIAMA</a>',
+      '<a href="https://bank.vooqqqm.com/" target="_blank" rel="noopener noreferrer">Bank Bonus Deals</a>',
+      '<a href="https://fitcalcify.com/" target="_blank" rel="noopener noreferrer">Health Toolkit Lab</a>',
     ],
     footerInfoTitle: "О сайте",
   },
@@ -197,6 +211,8 @@ const COMMON_COPY = {
     footerReminders: [
       '<a href="https://tmhzz.com/" target="_blank" rel="noopener noreferrer">天馬黒真珠コミュニティ</a>',
       '<a href="https://vooqqqm.com/" target="_blank" rel="noopener noreferrer">HIAMA 投資コミュニティ</a>',
+      '<a href="https://bank.vooqqqm.com/" target="_blank" rel="noopener noreferrer">薅羊毛活動站</a>',
+      '<a href="https://fitcalcify.com/" target="_blank" rel="noopener noreferrer">Health Toolkit Lab</a>',
     ],
     footerInfoTitle: "サイト情報",
   },
@@ -218,6 +234,8 @@ const COMMON_COPY = {
     footerReminders: [
       '<a href="https://tmhzz.com/" target="_blank" rel="noopener noreferrer">톈마 헤이전주 커뮤니티</a>',
       '<a href="https://vooqqqm.com/" target="_blank" rel="noopener noreferrer">HIAMA 투자 커뮤니티</a>',
+      '<a href="https://bank.vooqqqm.com/" target="_blank" rel="noopener noreferrer">뱅크 보너스 딜</a>',
+      '<a href="https://fitcalcify.com/" target="_blank" rel="noopener noreferrer">Health Toolkit Lab</a>',
     ],
     footerInfoTitle: "사이트 정보",
   },
@@ -239,6 +257,8 @@ const COMMON_COPY = {
     footerReminders: [
       '<a href="https://tmhzz.com/" target="_blank" rel="noopener noreferrer">مجتمع Tianma Heizhenzhu</a>',
       '<a href="https://vooqqqm.com/" target="_blank" rel="noopener noreferrer">مجتمع الاستثمار HIAMA</a>',
+      '<a href="https://bank.vooqqqm.com/" target="_blank" rel="noopener noreferrer">عروض مكافآت البنوك</a>',
+      '<a href="https://fitcalcify.com/" target="_blank" rel="noopener noreferrer">Health Toolkit Lab</a>',
     ],
     footerInfoTitle: "معلومات الموقع",
   },
@@ -260,6 +280,8 @@ const COMMON_COPY = {
     footerReminders: [
       '<a href="https://tmhzz.com/" target="_blank" rel="noopener noreferrer">Tianma Heizhenzhu समुदाय</a>',
       '<a href="https://vooqqqm.com/" target="_blank" rel="noopener noreferrer">HIAMA निवेश समुदाय</a>',
+      '<a href="https://bank.vooqqqm.com/" target="_blank" rel="noopener noreferrer">बैंक बोनस डील्स</a>',
+      '<a href="https://fitcalcify.com/" target="_blank" rel="noopener noreferrer">Health Toolkit Lab</a>',
     ],
     footerInfoTitle: "साइट जानकारी",
   },

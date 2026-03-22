@@ -209,7 +209,7 @@
             [tPair("组合月供", "Combined Payment"), money(monthly)],
             [tPair("贷款本金", "Principal"), money(principal)],
             [tPair("总利息", "Total Interest"), money(interest)],
-            [tPair("总还款", "Total Repayment"), money(total)],
+            [tPair("总还款（含本金+利息）", "Total Repayment (Principal + Interest)"), money(total)],
           ],
           note: tPair("组合贷款的重点不是看哪一部分便宜，而是看合并后的月供压力和总成本。", "The key is not which component is cheaper in isolation, but what the merged payment and total cost look like."),
           chartA: total,
@@ -218,7 +218,7 @@
           table: {
             title: tPair("两部分贷款拆解", "Loan split overview"),
             desc: tPair("把公积金和商业贷款放到同一张表里。", "See provident and commercial parts in the same table."),
-            headers: [tPair("部分", "Part"), tPair("月供", "Monthly Payment"), tPair("总还款", "Total Repayment")],
+            headers: [tPair("部分", "Part"), tPair("月供", "Monthly Payment"), tPair("总还款（含本金+利息）", "Total Repayment (Principal + Interest)")],
             rows: [
               [tPair("公积金", "Provident"), money(fundPayment), money(fundPayment * values.years * 12)],
               [tPair("商业贷款", "Commercial"), money(commercialPayment), money(commercialPayment * values.years * 12)],
